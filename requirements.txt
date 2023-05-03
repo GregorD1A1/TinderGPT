@@ -1,0 +1,4 @@
+FastAPI
+uvicorn
+selenium
+tenacity
