@@ -14,6 +14,8 @@ import re
 class DatingAppConnector():
     def __init__(self):
         self.driver = None
+        # xpathes
+        self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]"
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
@@ -36,34 +38,10 @@ class DatingAppConnector():
         print('Closing Tinder')
         self.driver.close()
 
-    def send_first_message_and_save_to_db(self, num_to_write=5):
-        name_age_xpath = "//div[@class='My(2px) C($c-base) Us(t) D(f) Ai(b) Maw(90%)']"
-        girl_number_from_end = 1
-        time.sleep(random.uniform(0.3, 0.6))
-
-        i = 0
-        while i < num_to_write:
-            driver.find_element_by_xpath(match_tab_xpath()).click()
-            time.sleep(random.uniform(1, 2))
-            icons = driver.find_elements_by_xpath(icons_xpath())
-            if len(icons) == 1:
-                print('No girls to write to')
-                return
-            icons[-girl_number_from_end].click()
-            time.sleep(0.25)
-            Wait(driver, 30).until(ExpCon.presence_of_element_located((By.XPATH,
-                                                                        name_age_xpath)))
-            name_age = driver.find_element_by_xpath(name_age_xpath).text
-            name = name_age[:-3]
-            messages = self.choose_first_message(name)
-            print('Checking profile and thinking about the first message')
-            time.sleep(random.uniform(15, 22))
-            self.send_messages(messages)
-            i += 1
-
     def send_messages(self, messages):
-        text_area_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
+        text_area_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         text_field = self.driver.find_element('xpath', text_area_xpath)
+        self.driver.find_element('xpath', self.message_tab_xpath).click()
         for message in messages:
             print('Thinking about what to write...')
             time.sleep(random.uniform(5, 10))
@@ -134,14 +112,15 @@ class DatingAppConnector():
 
     def get_first_match_bio(self):
         name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
-        bio_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]"
+        #bio_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]"
+        bio_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
         time.sleep(random.uniform(1, 2))
         icons = self.driver.find_elements('xpath', self.icons_xpath())
         if len(icons) == 1:
             print('No girls to start a conversation with')
             return
         # number in square brackets is a number of girl to write (from 1)
-        icons[2].click()
+        icons[1].click()
         time.sleep(3)
         Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH,
                                                                     name_xpath)))
