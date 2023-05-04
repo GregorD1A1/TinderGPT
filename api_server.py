@@ -46,5 +46,5 @@ def send_message_endpoint(message: Dict[str, str]):
 
 
 if __name__ == '__main__':
-    #get_unwritten_girl_description()
+    get_unwritten_girl_bio()
     uvicorn.run(app, host='127.0.0.1', port=80)

@@ -3,3 +3,5 @@ uvicorn
 selenium
 tenacity
 requests
+pyvirtualdiplay
+xvfbwrapper
