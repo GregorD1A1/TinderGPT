@@ -93,7 +93,19 @@ class DatingAppConnector():
 
     def get_msgs(self):
         messages_xpath = '/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div["[0-9]{1,2}"]'
+        new_message_flags = self.driver.find_elements('xpath',
+                                                 "//a['.']//div[1]//div[1]//div[2]")
+        time.sleep(random.uniform(3, 5))
+        for flag in new_message_flags:
+            flag.click()
+            time.sleep(0.5)
+            name_age_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/h1[1]"
+            Wait(self.driver, 60).until(ExpCon.presence_of_element_located((
+                By.XPATH, name_age_xpath)))
         regex_date = '[0-9]{2}\.[0-9]{2}\.[0-9]{4}, [0-9]{2}:[0-9]{2}'
+        all_texts_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]"
+        # get all messages text
+        all_messages = self.driver.find_elements('xpath', all_texts_xpath).text
         first_msg_number, message_history = self.find_first_msg_number(messages_xpath)
         her_msgs_objects = message_history[first_msg_number:]
         her_msgs = [msg.text for msg in her_msgs_objects]

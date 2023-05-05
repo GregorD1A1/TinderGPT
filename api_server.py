@@ -17,8 +17,8 @@ def like():
 
 @app.get('/get_msgs')
 def get_messages():
-    open_tnd()
-    messages = get_msgs()
+    tnd_connector.open_tinder()
+    messages = tnd_connector.get_msgs()
     response = Response(content=messages, media_type='application/json')
     close_tnd()
     return response
@@ -47,4 +47,4 @@ def send_message_endpoint(message: Dict[str, str]):
 
 if __name__ == '__main__':
     #get_unwritten_girl_description()
-    uvicorn.run(app, host='127.0.0.1', port=8000)
+    uvicorn.run(app, host='127.0.0.1', port=80)
