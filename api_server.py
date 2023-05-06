@@ -12,16 +12,16 @@ def like():
     open_tnd()
     liking_tnd(5)
     close_tnd()
-    return {'message': 'Liking function executed successfully!'}
+    return {'responce': 'Liking function executed successfully!'}
 
 
 @app.get('/get_msgs')
 def get_messages():
     tnd_connector.open_tinder()
     messages = tnd_connector.get_msgs()
-    response = Response(content=messages, media_type='application/json')
-    close_tnd()
-    return response
+    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
+                  json={'type': 'messages', 'content': messages})
+    return 200
 
 
 @app.get('/close')
@@ -35,7 +35,7 @@ def get_unwritten_girl_bio():
     tnd_connector.open_tinder()
     name, bio = tnd_connector.get_first_match_bio()
     # send request to webhook
-    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i', json={'name': name, 'bio': bio})
+    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i', json={'type': 'bio', 'content': bio})
     return 200
 
 
@@ -46,5 +46,4 @@ def send_message_endpoint(message: Dict[str, str]):
 
 
 if __name__ == '__main__':
-    #get_unwritten_girl_description()
     uvicorn.run(app, host='127.0.0.1', port=80)

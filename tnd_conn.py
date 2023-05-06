@@ -16,10 +16,12 @@ class DatingAppConnector():
         self.driver = None
         # xpathes
         self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]"
+        self.name_age_match_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/h1[1]"
+        self.new_msg_flag_xpath = "//a[1]/div[1]/div[1]/div[2]"
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
+        #options.add_argument('--headless')
         profile_ff = webdriver.FirefoxProfile('FirefoxProfile')
         self.driver = webdriver.Firefox(firefox_profile=profile_ff, options=options)
         girl_card_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[1]/a[1]/div[1]/div[3]"
@@ -92,35 +94,27 @@ class DatingAppConnector():
         return sent_meeting_invitation
 
     def get_msgs(self):
-        messages_xpath = '/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div["[0-9]{1,2}"]'
+        messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
         new_message_flags = self.driver.find_elements('xpath',
                                                  "//a['.']//div[1]//div[1]//div[2]")
         time.sleep(random.uniform(3, 5))
-        for flag in new_message_flags:
-            flag.click()
-            time.sleep(0.5)
-            name_age_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/h1[1]"
-            Wait(self.driver, 60).until(ExpCon.presence_of_element_located((
-                By.XPATH, name_age_xpath)))
-        regex_date = '[0-9]{2}\.[0-9]{2}\.[0-9]{4}, [0-9]{2}:[0-9]{2}'
-        all_texts_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]"
-        # get all messages text
-        all_messages = self.driver.find_elements('xpath', all_texts_xpath).text
-        first_msg_number, message_history = self.find_first_msg_number(messages_xpath)
-        her_msgs_objects = message_history[first_msg_number:]
-        her_msgs = [msg.text for msg in her_msgs_objects]
-        for msg in her_msgs:
-            if re.match(regex_date, msg) is not None:
-                her_msgs.remove(msg)
-        return message_history
+        # open message tab
+        self.driver.find_element('xpath', self.message_tab_xpath).click()
+        time.sleep(random.uniform(0.5, 1))
+        # cleck on new message
+        self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
 
-    def find_first_msg_number(self, messages_xpath):
-        message_history = self.driver.find_elements('xpath', messages_xpath)
-        for i, message in enumerate(message_history):
-            if message.text[-7:] == 'Wysłano':
-                first_msg_number = i + 1
-                break
-        return first_msg_number, message_history
+        #first_girl_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[1]/a[1]"
+        #self.driver.find_element('xpath', first_girl_xpath).click()
+        # waiting to all message load
+        time.sleep(3)
+        messages = self.driver.find_elements('xpath', messages_xpath)
+
+        message_prompt = ''
+        for message in messages:
+            message_prompt += '- ' + message.text + '\n'
+
+        return message_prompt
 
     def get_first_match_bio(self):
         name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
