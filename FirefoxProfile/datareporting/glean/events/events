@@ -1,0 +1,2 @@
+{"timestamp":2042079,"category":"nimbus_events","name":"enroll_failed","extra":{"reason":"feature-conflict","experiment":"abouthome-startup-cache-rollout"}}
+{"timestamp":2044779,"category":"nimbus_events","name":"enroll_failed","extra":{"experiment":"next-generation-accessibility-engine-powering-screen-readers","reason":"feature-conflict"}}

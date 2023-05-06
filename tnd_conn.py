@@ -21,9 +21,9 @@ class DatingAppConnector():
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        #options.add_argument('--headless')
-        profile_ff = webdriver.FirefoxProfile('FirefoxProfile')
-        self.driver = webdriver.Firefox(firefox_profile=profile_ff, options=options)
+        options.add_argument('--headless')
+        options.set_preference('profile', 'FirefoxProfile')
+        self.driver = webdriver.Firefox(options=options)
         girl_card_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[1]/a[1]/div[1]/div[3]"
         self.load_main_page(girl_card_xpath)
         self.driver.maximize_window()
@@ -94,6 +94,7 @@ class DatingAppConnector():
         return sent_meeting_invitation
 
     def get_msgs(self):
+        print('trying to get messages')
         messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
         new_message_flags = self.driver.find_elements('xpath',
                                                  "//a['.']//div[1]//div[1]//div[2]")
@@ -117,6 +118,7 @@ class DatingAppConnector():
         return message_prompt
 
     def get_first_match_bio(self):
+        print('get bio function')
         name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
         #bio_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]"
         bio_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
