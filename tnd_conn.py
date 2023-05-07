@@ -21,8 +21,9 @@ class DatingAppConnector():
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
-        options.set_preference('profile', 'FirefoxProfile')
+        #options.add_argument('--headless')
+        options.add_argument('-profile')
+        options.add_argument('FirefoxProfile')
         self.driver = webdriver.Firefox(options=options)
         girl_card_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[1]/a[1]/div[1]/div[3]"
         self.load_main_page(girl_card_xpath)
@@ -71,28 +72,6 @@ class DatingAppConnector():
         else:
             return "add the correct div here"
 
-    def reply(self):
-        name_age_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]"
-        newest_girl_xpath = "//aside[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/a[1]"
-        sent_meeting_invitation = False
-        driver.find_element('xpath', messages_tab_xpath()).click()
-        time.sleep(random.uniform(3, 5))
-        new_message_flags = driver.find_elements('xpath',
-                                                 "//a['.']//div[1]//div[1]//div[2]")
-        time.sleep(random.uniform(3, 5))
-        for flag in new_message_flags:
-            flag.click()
-            time.sleep(0.5)
-            Wait(driver, 60).until(ExpCon.presence_of_element_located((
-                By.XPATH, name_age_xpath)))
-            name_age = driver.find_element('xpath', name_age_xpath).text
-            print(name_age)
-
-            # Choose
-            texts, sent_meeting_invitation = self.choose_texts()
-            self.send_messages(texts)
-        return sent_meeting_invitation
-
     def get_msgs(self):
         print('trying to get messages')
         messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
@@ -103,10 +82,13 @@ class DatingAppConnector():
         self.driver.find_element('xpath', self.message_tab_xpath).click()
         time.sleep(random.uniform(0.5, 1))
         # cleck on new message
-        self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
+        try:
+            self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
+        except NoSuchElementException:
+            pass
 
-        #first_girl_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[1]/a[1]"
-        #self.driver.find_element('xpath', first_girl_xpath).click()
+        first_girl_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[2]"
+        self.driver.find_element('xpath', first_girl_xpath).click()
         # waiting to all message load
         time.sleep(3)
         messages = self.driver.find_elements('xpath', messages_xpath)
@@ -138,9 +120,6 @@ class DatingAppConnector():
         except NoSuchElementException:
             bio = ''
         return name, bio
-
-
-
 
 
 
