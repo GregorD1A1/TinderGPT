@@ -21,10 +21,11 @@ class DatingAppConnector():
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        #options.add_argument('--headless')
-        options.add_argument('-profile')
-        options.add_argument('FirefoxProfile')
-        self.driver = webdriver.Firefox(options=options)
+        options.add_argument('--headless')
+        #options.add_argument('-profile')
+        #options.add_argument('FirefoxProfile')
+        profile = webdriver.FirefoxProfile('FirefoxProfile')
+        self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
         girl_card_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[1]/a[1]/div[1]/div[3]"
         self.load_main_page(girl_card_xpath)
         self.driver.maximize_window()
