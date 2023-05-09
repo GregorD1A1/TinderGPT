@@ -17,6 +17,7 @@ def like():
 
 @app.get('/get_msgs')
 def get_messages():
+    print("msgs request arrived")
     tnd_connector.open_tinder()
     messages = tnd_connector.get_msgs()
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
@@ -32,6 +33,7 @@ def close_tnd():
 
 @app.get('/get_bio')
 def get_unwritten_girl_bio():
+    print("bio request arrived")
     tnd_connector.open_tinder()
     name, bio = tnd_connector.get_first_match_bio()
     # send request to webhook

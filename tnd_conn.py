@@ -18,10 +18,11 @@ class DatingAppConnector():
         self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]"
         self.name_age_match_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/h1[1]"
         self.new_msg_flag_xpath = "//a[1]/div[1]/div[1]/div[2]"
+        self.close_tinder_gold_enforser = "/html[1]/body[1]/div[2]/main[1]/div[1]/div[1]/div[3]/button[2]/span[1]"
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
+        #options.add_argument('--headless')
         #options.add_argument('-profile')
         #options.add_argument('FirefoxProfile')
         profile = webdriver.FirefoxProfile('FirefoxProfile')
@@ -37,6 +38,11 @@ class DatingAppConnector():
         print('Waiting for the main page to load')
         Wait(self.driver, random.uniform(85, 100)).until(
             ExpCon.presence_of_element_located((By.XPATH, girl_card_xpath)))
+        print("girl found")
+        time.sleep(random.uniform(1, 3))
+        # closing tinder gold enforser
+        if ExpCon.presence_of_element_located((By.XPATH, self.close_tinder_gold_enforser)):
+            self.driver.find_element('xpath', self.close_tinder_gold_enforser).click()
 
     def close_tinder(self):
         print('Closing Tinder')
