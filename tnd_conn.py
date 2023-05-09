@@ -76,6 +76,7 @@ class DatingAppConnector():
     def get_msgs(self):
         print('trying to get messages')
         messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
+        second_msg_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]"
         new_message_flags = self.driver.find_elements('xpath',
                                                  "//a['.']//div[1]//div[1]//div[2]")
         time.sleep(random.uniform(3, 5))
@@ -91,7 +92,8 @@ class DatingAppConnector():
         first_girl_xpath = "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[2]"
         self.driver.find_element('xpath', first_girl_xpath).click()
         # waiting to all message load
-        time.sleep(3)
+        Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, second_msg_xpath)))
+        time.sleep(random.uniform(0.5, 1))
         messages = self.driver.find_elements('xpath', messages_xpath)
 
         message_prompt = ''
@@ -113,8 +115,7 @@ class DatingAppConnector():
         # number in square brackets is a number of girl to write (from 1)
         icons[1].click()
         time.sleep(3)
-        Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH,
-                                                                    name_xpath)))
+        Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, name_xpath)))
         name = self.driver.find_element('xpath', name_xpath).text
         try:
             bio = self.driver.find_element('xpath', bio_xpath).text
