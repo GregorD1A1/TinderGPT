@@ -4,7 +4,7 @@
       "Droczenie się",
       "Stopień zaawansowania: budowanie rapportu, pogłębianie relacji."
     ],
-    "text": "Droczenie się: Droczenie to mówienie kobiecie czegoś troszkę niemiłego z jednoczesnym podtekstem 'tak naprawdę to Cię lubię'. Oprócz wartości zabawiania, ma pokazać, że ci na niej nie zależy.\n\nPrzykłady (oczywiście teskt należy dopasować do kontekstu):\n'Poflirtowałbym z tobą, ale jesteś zbyt grzeczną dziewczynką'\n'Za takie zachowanie zamknął bym Cię w ciemnej komórce i karmił chlebem z wodą'\n'Nie ma szans żebym się z Tobą umówił, jestem wredny i ciągle bym Cię irytował..'\n'Nie wiem jak cię wychowywali rodzice, ale definitywnie za mało dostawałaś w skórę niesforna kobietko :P'"
+    "text": "Droczenie się: Droczenie to mówienie kobiecie czegoś troszkę niemiłego z jednoczesnym podtekstem 'tak naprawdę to Cię lubię'.Oprócz wartości zabawiania, ma pokazać, że ci na niej nie zależy.\n\nPrzykłady (oczywiście teskt należy dopasować do kontekstu):\n'Poflirtowałbym z tobą, ale jesteś zbyt grzeczną dziewczynką'\n'Za takie zachowanie zamknął bym Cię w ciemnej komórce i karmił chlebem z wodą'\n'Nie ma szans żebym się z Tobą umówił, jestem wredny i ciągle bym Cię irytował..'\n'Nie wiem jak cię wychowywali rodzice, ale definitywnie za mało dostawałaś w skórę niesforna kobietko :P'"
   },
   2: {
     "tags": [
@@ -18,7 +18,7 @@
     "tags": [
       "Obwinianie o podrywanie mnie"
     ],
-    "text": "Przykłady:\n'Lecisz tylko na mój tyłek, a nie na osobowość'\n'Czy wszystkich facetów podrywasz w taki sposób?'"
+    "text": "Żartobliwe sugerowanie dziewczynie, że mnie podrywa pomaga, ustawiając ją w ramę, że to ona powinna się o mnie starać.\n\nPrzykłady:\n'Jakie teksty piszesz! Ale flirciara z ciebie!'\n'Lecisz tylko na mój tyłek, a nie na osobowość'\n'Czy wszystkich facetów podrywasz w taki sposób?'"
   },
   4: {
     "tags": [
@@ -58,7 +58,7 @@
   9: {
     "tags": [
       "Opowiadanie o sobie",
-      "Relacje",
+      "Pyta o mnie, o moje cechy lub zainteresowania",
       "Przedestawianie się jako facet z wymaganiami",
     ],
     "text": "Opowiadając o sobie w kontekscie relacji z kobietami, warto pokazać, że masz swoje standardy, wymagania, nie lecisz na każdą dziewczynę, trudno jest cię zadowalić w relacji, nie jesteś potrzebującym. Przy okazji można pokazać między słowami, że kobiety na ciebie lecą.\n\nPrzykałady:\n'Ja nie lubię spędzać całego czasu z dziewczyną, wolę mieć czas dla siebie.'\n'Kielnerka próbowała mnie poderwać; była nawet całkiem ładna, ale nie czułem tej chemii między nami.'\n'Pisze do mnie non-stop, musiałem ją zablokowac.'"
@@ -71,5 +71,34 @@
       "Zawsze",
     ],
     "text": "Cokolwiek pisze się do dziewczyny, warto mówić o emocjach i odczuciach. Przykłady:\n\n'Chyba lubisz zajmować się piesem'\n'Jezdżenie na rolkach musi sprawiać tobie ogromną frajdę'\n'Też się czujesz jak filozof kiedy napijesz się winka?'"
-  }
+  },
+  11: {
+    "tags": [
+      "Testy",
+    ],
+    "text": ""
+  },
+  12: {
+    "tags": [
+      "Mocne przeżycia",
+      "silne wrażenia",
+      "Dopytywanie",
+    ],
+    "text": "Warto pytać lub dopytywać w zależności od kontekstu dziewczynę o jej silne przeżycia, największą radość, największy strach jaki miała, najlepszą podróż którą kiedykolwiek odbyła itd.\n\nPrzykłady:\n'Opowiedz jakie największe demony miałaś wtedy'\n'Które twoje zainteresowaniesprawia ci największą frajdę?'\n'Jakbyś miałaś uratować z ognia tylko dwie twoje rzeczy, co by to było?'"
+  },
+  13: {
+    "tags": [
+      "Niedostępność",
+      "Poopowiadaniu o zaintresowaniach",
+    ],
+    "text": "Robienie z siebie niedostępnego - pokazywanie, że nie jesteś przekonany co do dziewczyny w subtelny sposób. Zasugerowanie, że się ją boisz poznać bleżej przez jej zainteresowania lub cechy charakteru.\n\nPrzykłady:\n'Myślałem już, że przedstawię cię swoim rodzicow, ale skoro wolisz koty od psów, chyba nic z tego.'\n'Dbasz o sylwetkę? Ech, szkoda, bo ja jednak wolę dziewczyny, co mają masę'\n'Jaka wariatka z ciebie! Szkoda, ja jednak szukam stabilnej emocjonalnie kobiety :D'"
+  },
+  14: {
+    "tags": [
+      "Nie zgadzanie się",
+      "Różnice zdań",
+      "Przeciwna opinia",
+    ],
+    "text": "Pokazanie, że masz własne zdanie i nie zgadzasz się zawsze z jej opinią może być interesujące dla dziewczyny.\n\nPrzykłady:\n'Lubisz czerwone wino? Szerze mówiąc, nie cierpię czerwonego. Jest takie cierpkie. Ja piję tylko białe '\n'A ja akurat uważam, że kochanie wszystkich zwierząt nie jest dobre. Są dobre i złę zwierzęta'\n'Fajnie, że masz swoją opinię, ale totalnie się z nią nie zgadzam. Wódka jest lepsza od piwa.'"
+  },
 }

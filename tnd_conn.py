@@ -22,7 +22,7 @@ class DatingAppConnector():
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
         #options.add_argument('-profile')
         #options.add_argument('FirefoxProfile')
         profile = webdriver.FirefoxProfile('FirefoxProfile')

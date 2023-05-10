@@ -42,9 +42,10 @@ def get_unwritten_girl_bio():
 
 
 @app.post("/send_message")
-def send_message_endpoint(message: Dict[str, str]):
-    tnd_connector.send_messages([message["message"]])
-    return {"message": "Message sent successfully."}
+def send_message_endpoint(message):
+    print("message sending request arrived")
+    tnd_connector.send_messages([message])
+    return 200
 
 
 if __name__ == '__main__':
