@@ -1,104 +1,55 @@
 {
-  1: {
-    "tags": [
-      "Droczenie się",
-      "Stopień zaawansowania: budowanie rapportu, pogłębianie relacji."
-    ],
-    "text": "Droczenie się: Droczenie to mówienie kobiecie czegoś troszkę niemiłego z jednoczesnym podtekstem 'tak naprawdę to Cię lubię'.Oprócz wartości zabawiania, ma pokazać, że ci na niej nie zależy.\n\nPrzykłady (oczywiście teskt należy dopasować do kontekstu):\n'Poflirtowałbym z tobą, ale jesteś zbyt grzeczną dziewczynką'\n'Za takie zachowanie zamknął bym Cię w ciemnej komórce i karmił chlebem z wodą'\n'Nie ma szans żebym się z Tobą umówił, jestem wredny i ciągle bym Cię irytował..'\n'Nie wiem jak cię wychowywali rodzice, ale definitywnie za mało dostawałaś w skórę niesforna kobietko :P'"
+  "rules": [{
+    "tags": "Droczenie się, Tworzenie luźnej atmosfery, Pokazanie, że ci nie zależy",
+    "text": "Droczenie się to mówienie kobiecie czegoś troszkę niemiłego z jednoczesnym podtekstem 'tak naprawdę to Cię lubię'. Oprócz wartości zabawiania, ma pokazać, że ci na niej nie zależy.\nPrzykłady:\n'Poflirtowałbym z tobą, ale jesteś zbyt grzeczną dziewczynką'\n'Za takie zachowanie zamknął bym Cię w ciemnej komórce i karmił chlebem z wodą'\n'Nie ma szans żebym się z Tobą umówił, jestem wredny i ciągle bym Cię irytował..'\n'Nie wiem jak cię wychowywali rodzice, ale definitywnie za mało dostawałaś w skórę niesforna kobietko :P'"
   },
-  2: {
-    "tags": [
-      "Podteksty",
-      "Zainteresowanie seksualne",
-      "Wiadomość delikatnie niegrzeczna"
-    ],
-    "text": "Wplatanie podtekstów seksualnych: Chodzi o to, aby seks stawał się wyraźnym podtekstem waszej rozmowy, najlepiej w zabawny sposób.\nPrzykłady:\nO mój Boże, ale z Ciebie niegrzeczna dziewczynka... trzeba Ci pokazać gdzie jest twoje miejsce :)\nJuż mogę stwierdzić, że jesteś bardzo niesforną dziewczyną, przyznaj się, ostatni chłopak Cię rozpuścił i nie dawał ci dostatecznie często klapsów?\nHej, czy Ty myślisz non stop o seksie? Przestań, jestem zbyt nieśmiały na takie rzeczy...:"
+  {
+    "tags": "Podteksty, Zainteresowanie seksualne, Wiadomość delikatnie niegrzeczna",
+    "text": "Wplatanie podtekstów seksualnych: Chodzi o to, aby seks stawał się wyraźnym podtekstem waszej rozmowy, najlepiej w zabawny sposób.\nPrzykłady:\nO mój Boże, ale z Ciebie niegrzeczna dziewczynka... trzeba Ci pokazać gdzie jest twoje miejsce :)\nJesteś bardzo niesforną dziewczyną. Przyznaj się, ostatni chłopak Cię rozpuścił i nie dawał ci dostatecznie często klapsów?\nHej, czy Ty myślisz non stop o seksie? Przestań, jestem zbyt nieśmiały na takie rzeczy...:"
   },
-  3: {
-    "tags": [
-      "Obwinianie o podrywanie mnie"
-    ],
-    "text": "Żartobliwe sugerowanie dziewczynie, że mnie podrywa pomaga, ustawiając ją w ramę, że to ona powinna się o mnie starać.\n\nPrzykłady:\n'Jakie teksty piszesz! Ale flirciara z ciebie!'\n'Lecisz tylko na mój tyłek, a nie na osobowość'\n'Czy wszystkich facetów podrywasz w taki sposób?'"
+  {
+    "tags": "Obwinianie o podrywanie mnie, Obraz faceta z wymaganiami",
+    "text": "Żartobliwe sugerowanie dziewczynie, że mnie podrywa, ustawia ją w ramę, że to ona powinna się o mnie starać.\nPrzykłady:\n'Jakie ty rzeczy piszesz! Ale flirciara z ciebie!'\n'Lecisz tylko na mój tyłek, a nie na osobowość'\n'Czy wszystkich facetów podrywasz w taki sposób?'"
   },
-  4: {
-    "tags": [
-      "Nakładanie stereotypu"
-    ],
-  "text": "Nakłada się na dziewczynę negatywny stereotyp w celu, by jemu zaprzeczyła.\n\nPrzykłady:\n'Jesteś taka młoda... na pewno jesteś jeszcze dziewicą'\n'Jesteś taka pruderyjna... Zakładam, że kochasz się tylko przy zgaszonym światle :P'"
+  {
+    "tags": "Nakładanie stereotypu, Żartowanie, Seksualna atmosfera, kiedy już istnieje więź emocjonalna",
+    "text": "Nakłada się na dziewczynę negatywny stereotyp w celu, by jemu zaprzeczyła.\nPrzykłady:\n'Jesteś taka młoda... na pewno jesteś jeszcze dziewicą'\n'Jesteś taka pruderyjna... Zakładam, że kochasz się tylko przy zgaszonym światle :P'"
   },
-  5: {
-    "tags": [
-      "Dyskwalifikacja samego siebie",
-      "Stopień zaawansowania: wstępne budowanie relacji, budowanie rapportu"
-    ],
-    "text": "Dyskwalifikacja sibie: śmianie się z siebie, pokazujące, że nie zależy ci na niej. Że nie próbujesz jej się spodobać. Udawane robienie przeszkód.\n\nPrzykłady:\n'Jestem niezwykle niemiły dla kobiet. Nawet mama mówi mojej siostrze, by unikała takich facetów jak ja. Na twoim miejscu też bym unikał'\n'Hej, jak możesz mi to mówić! Przecież wiesz, że jestem prawiczkiem, moje uszy nie powinny tego słyszeć! Zaraz się zaczerwienię.'\n'Unikaj mnie lepiej. Ze mną zawsze same problemy.'\n'Ja jestem bardzo nieśmiały, i tak ucieknę, tylko cię zobaczę'\n'Muszę Cię uprzedzić, jestem naprawdę cienki w łóżku. To będą najgorsze 30 sekund twojego życia, przemyśl to jeszcze raz'"
+  {
+    "tags": "Dyskwalifikacja samego siebie, Obraz ciekawego faceta, Budowanie luźnej atmosfery, Tworzenie sztucznych przeszkód",
+    "text": "Dyskwalifikacja sibie: śmianie się z siebie, pokazujące, że nie zależy ci na niej. Że nie próbujesz jej się spodobać. Udawane robienie przeszkód.\nPrzykłady:\n'Jestem niezwykle niemiły dla kobiet. Nawet mama mówi mojej siostrze, by unikała takich facetów jak ja. Na twoim miejscu też bym unikał'\n'Unikaj mnie lepiej. Ze mną zawsze same problemy.'\n'Ja jestem bardzo nieśmiały, i tak ucieknę, tylko cię zobaczę'\n'Muszę Cię uprzedzić, jestem naprawdę cienki w łóżku. To będą najgorsze 30 sekund twojego życia, przemyśl to jeszcze raz'"
   },
-  6: {
-    "tags":[
-      "Zadawanie pytań o niej",
-      "Interesowanie się jej życiem",
-    ],
-    "text": "Warto interesować się jej życiem - zadawać pytania na osobiste tematy, takie jak zainteresowania, marzenia, pasje, upodobania oraz poprzednie relacje z facetami.\n\nPrzykłady:\n'Mówisz, że studiujesz dziennikarstwo. Chesz w przyszłości brać wywiady i zostać dziennikarką roku?'/n'Byłaś w Egipcie!? Opowiadaj jak było. Spodobały ci się te piramidy? ;)'\n'Ty chyba niezbyt dogadujesz się z facetami :P Opowiedz o swoich poprzednich doświadczeniach z chopakami'\n'Opowiedz o swoich poprzednich doświadczdeniach z chłopakami. Jesteś z tych księżniczek, co marzą o rycerzu na białym mercedesie? :P'"
+  {
+    "tags": "Budowanie więźi emocjonalnej, Poglębianie więźi, Zadawanie pytań o niej, Interesowanie się jej życiem",
+    "text": "By zbudować więź emocjonalną, warto interesować się jej życiem - zadawać pytania na osobiste tematy, takie jak zainteresowania, marzenia, pasje, upodobania oraz poprzednie relacje z facetami.\nPrzykłady:\n'Mówisz, że studiujesz dziennikarstwo. Chesz w przyszłości brać wywiady i zostać dziennikarką roku?'\n'Byłaś w Egipcie!? Opowiadaj jak było. Spodobały ci się te piramidy? ;)'\n'Ty chyba niezbyt dogadujesz się z facetami :P Opowiedz o swoich poprzednich doświadczeniach z chopakami'\n'Opowiedz o swoich poprzednich doświadczdeniach z chłopakami. Jesteś z tych księżniczek, co marzą o rycerzu na białym mercedesie? :P'"
   },
-  7: {
-    "tags": [
-      "Dopytywanie",
-      "Aktywne słuchanie",
-      "Opowiada o sobie",
-    ],
-    "text": "Aktywne słuchanie: Jeśli dziewczyna zaczęła opowiadać coś o sobie, zwłaszcza na tematy osobiste, warto ją o to dopytać, zachęcić do dalszego mówienia - ludzie uwielbiają mówić o sobie.\n\nPrzykłady:\n'Dlaczego ci się spodobało w San Pablo?'\n'Jesteś silna dziewczyna i czujesz się, jakbyś dała rady spełnić postawione zadanie?'\n'Co najbardziej cię pociąga w małych kotach?'"
+  {
+    "tags": "Pogłębianie więźi emocjonalnej, Dopytywanie, Aktywne słuchanie, Opowiada o sobie",
+    "text": "Aktywne słuchanie: Jeśli dziewczyna zaczęła opowiadać coś o sobie, zwłaszcza na tematy osobiste, warto ją o to dopytać, zachęcić do dalszego mówienia - ludzie uwielbiają mówić o sobie. Poglębia to więź emocjonalną.\nPrzykłady:\n'Dlaczego ci się spodobało w San Pablo?'\n'Jesteś silna dziewczyna i czujesz się, jakbyś dała rady spełnić postawione zadanie?'\n'Co najbardziej cię pociąga w małych kotach?'"
   },
-  8: {
-    "tags":[
-      "Opowiadanie historii",
-      "Opowiadanie o sobie",
-    ],
-    "text": "Podczas opowiadania czegoś, warto skupić się na emocjach, odczuciach, niż na faktach. Nazywac emocje słowami.\n\nPrzykałady:\n'Kiedy przyjechałem w polskie góry, po raz pierwszy w życiu poczułem się naprawde wolny'\n'Czułem ogromny strach, kiedy po raz pierwszy tańczyłem striptiz, ale zrobiłem to.'\n'Takiej euforii jak wtedy nie miałem nigdy przedtym.'"
+  {
+    "tags": "Budowanie więzi, Mocne przeżycia, Ważne przeżycia, Silne wrażenia, Dopytywanie",
+    "text": "Warto pytać lub dopytywać w zależności od kontekstu dziewczynę o jej silne przeżycia, największą radość, największy strach jaki miała, najlepszą podróż którą kiedykolwiek odbyła itd.\nPrzykłady:\n'Opowiedz jakie największe demony miałaś wtedy'\n'Które twoje zainteresowaniesprawia ci największą frajdę?'\n'Jakbyś miałaś uratować z ognia tylko dwie twoje rzeczy, co by to było?'"
   },
-  9: {
-    "tags": [
-      "Opowiadanie o sobie",
-      "Pyta o mnie, o moje cechy lub zainteresowania",
-      "Przedestawianie się jako facet z wymaganiami",
-    ],
-    "text": "Opowiadając o sobie w kontekscie relacji z kobietami, warto pokazać, że masz swoje standardy, wymagania, nie lecisz na każdą dziewczynę, trudno jest cię zadowalić w relacji, nie jesteś potrzebującym. Przy okazji można pokazać między słowami, że kobiety na ciebie lecą.\n\nPrzykałady:\n'Ja nie lubię spędzać całego czasu z dziewczyną, wolę mieć czas dla siebie.'\n'Kielnerka próbowała mnie poderwać; była nawet całkiem ładna, ale nie czułem tej chemii między nami.'\n'Pisze do mnie non-stop, musiałem ją zablokowac.'"
+  {
+    "tags": "Opowiadanie historii, Opowiadanie o sobie, Obraz ciekawego faceta",
+    "text": "Podczas opowiadania czegoś, warto skupić się na emocjach, odczuciach, niż na faktach. Nazywac emocje słowami.\nPrzykałady:\n'Kiedy przyjechałem w polskie góry, po raz pierwszy w życiu poczułem się naprawde wolny'\n'Czułem ogromny strach, kiedy po raz pierwszy tańczyłem striptiz, ale zrobiłem to.'\n'Takiej euforii jak wtedy nie miałem nigdy przedtym.'"
   },
-  10: {
-    "tags": [
-      "Emocje",
-      "Uczucia",
-      "Samopoczucie",
-      "Zawsze",
-    ],
-    "text": "Cokolwiek pisze się do dziewczyny, warto mówić o emocjach i odczuciach. Przykłady:\n\n'Chyba lubisz zajmować się piesem'\n'Jezdżenie na rolkach musi sprawiać tobie ogromną frajdę'\n'Też się czujesz jak filozof kiedy napijesz się winka?'"
+  {
+    "tags": "Opowiadanie o sobie, Pyta o mnie, o moje cechy lub zainteresowania, Przedestawianie się jako facet z wymaganiami",
+    "text": "Opowiadając o sobie w kontekscie relacji z kobietami, warto pokazać, że masz swoje standardy, wymagania, nie lecisz na każdą dziewczynę, trudno jest cię zadowalić w relacji, nie jesteś potrzebującym. Przy okazji można pokazać między słowami, że kobiety na ciebie lecą.\nPrzykałady:\n'Ja nie lubię spędzać całego czasu z dziewczyną, wolę mieć czas dla siebie.'\n'Kielnerka próbowała mnie poderwać; była nawet całkiem ładna, ale nie czułem tej chemii między nami.'\n'Pisze do mnie non-stop, musiałem ją zablokowac.'"
   },
-  11: {
-    "tags": [
-      "Testy",
-    ],
-    "text": ""
+  {
+    "tags": "Budowanie więzi emocjonalnej, Emocje, Uczucia, Samopoczucie",
+    "text": "Cokolwiek pisze się do dziewczyny, warto mówić o emocjach i odczuciach. Przykłady:\n'Chyba lubisz zajmować się piesem'\n'Jezdżenie na rolkach musi sprawiać tobie ogromną frajdę'\n'Też się czujesz jak filozof kiedy napijesz się winka?'\nZwróć uwagę na słowa 'lubisz', 'sprawia frajdę', 'czujesz się jak'."
   },
-  12: {
-    "tags": [
-      "Mocne przeżycia",
-      "silne wrażenia",
-      "Dopytywanie",
-    ],
-    "text": "Warto pytać lub dopytywać w zależności od kontekstu dziewczynę o jej silne przeżycia, największą radość, największy strach jaki miała, najlepszą podróż którą kiedykolwiek odbyła itd.\n\nPrzykłady:\n'Opowiedz jakie największe demony miałaś wtedy'\n'Które twoje zainteresowaniesprawia ci największą frajdę?'\n'Jakbyś miałaś uratować z ognia tylko dwie twoje rzeczy, co by to było?'"
+  {
+    "tags": "Wymagający facet, Niedostępność, Po tym, jak opowie o zaintresowaniach, Własne standardy",
+    "text": "Robienie z siebie niedostępnego - pokazywanie, że nie jesteś przekonany co do dziewczyny w subtelny sposób. Zasugerowanie, że się ją boisz poznać bleżej przez jej zainteresowania lub cechy charakteru.\nPrzykłady:\n'Myślałem już, że przedstawię cię swoim rodzicow, ale skoro wolisz koty od psów, chyba nic z tego.'\n'Dbasz o sylwetkę? Ech, szkoda, bo ja jednak wolę dziewczyny, co mają masę'\n'Jaka wariatka z ciebie! Szkoda, ja jednak szukam stabilnej emocjonalnie kobiety :D'"
   },
-  13: {
-    "tags": [
-      "Niedostępność",
-      "Poopowiadaniu o zaintresowaniach",
-    ],
-    "text": "Robienie z siebie niedostępnego - pokazywanie, że nie jesteś przekonany co do dziewczyny w subtelny sposób. Zasugerowanie, że się ją boisz poznać bleżej przez jej zainteresowania lub cechy charakteru.\n\nPrzykłady:\n'Myślałem już, że przedstawię cię swoim rodzicow, ale skoro wolisz koty od psów, chyba nic z tego.'\n'Dbasz o sylwetkę? Ech, szkoda, bo ja jednak wolę dziewczyny, co mają masę'\n'Jaka wariatka z ciebie! Szkoda, ja jednak szukam stabilnej emocjonalnie kobiety :D'"
-  },
-  14: {
-    "tags": [
-      "Nie zgadzanie się",
-      "Różnice zdań",
-      "Przeciwna opinia",
-    ],
-    "text": "Pokazanie, że masz własne zdanie i nie zgadzasz się zawsze z jej opinią może być interesujące dla dziewczyny.\n\nPrzykłady:\n'Lubisz czerwone wino? Szerze mówiąc, nie cierpię czerwonego. Jest takie cierpkie. Ja piję tylko białe '\n'A ja akurat uważam, że kochanie wszystkich zwierząt nie jest dobre. Są dobre i złę zwierzęta'\n'Fajnie, że masz swoją opinię, ale totalnie się z nią nie zgadzam. Wódka jest lepsza od piwa.'"
-  },
+  {
+    "tags": "Wymagający facet, Nie zgadzanie się, Własne zdanie, Przeciwna opinia",
+    "text": "Pokazanie, że masz własne zdanie i nie zgadzasz się zawsze z jej opinią może być interesujące dla dziewczyny.\nPrzykłady:\n'Lubisz czerwone wino? Szerze mówiąc, nie cierpię czerwonego. Jest takie cierpkie. Ja piję tylko białe '\n'A ja akurat uważam, że kochanie wszystkich zwierząt nie jest dobre. Są dobre i złe zwierzęta'\n'Fajnie, że masz swoją opinię, ale totalnie się z nią nie zgadzam. Wódka jest lepsza od piwa.'"
+  }
+  ]
 }

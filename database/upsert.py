@@ -1,27 +1,31 @@
 import openai
 import pinecone
+import json
 
-
-openai.api_key = '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'
+with open('api_keys.json', 'r') as f:
+    api_keys = json.load(f)
+openai.api_key = api_keys['openai']
 MODEL = 'text-embedding-ada-002'
 # init connection to pinecone
-pinecone.init('82eefb80-b714-40d1-a91c-79968f96dd7e', environment='asia-northeast1-gcp')
+pinecone.init(api_keys['pinecone'], environment='asia-northeast1-gcp')
 # connect to the index
-index = pinecone.Index('teksty')
+index = pinecone.Index('textspl')
 
+with open('baza_wiedzy.json', 'r', encoding='utf-8') as f:
+    document = json.load(f)
+    document = document['rules']
 
-document = ['cats have two legs', 'dogs have three legs', 'cats are smarter than dogs', 'penguins are smarter than cats']
 ids_document = [str(n) for n in range(len(document))]
-# creates embeddings for the given text
+# creates embeddings for the tags
 response = openai.Embedding.create(
-    input = document,
+    input=[rule['tags'] for rule in document],
     engine=MODEL,
 )
-
 embeddings = [record['embedding'] for record in response['data']]
 
 # prepare metadata
-meta = [{'text': text} for text in document]
+meta = [{'text': rule['text']} for rule in document]
+
 # upsert data
 upsert_data = zip(ids_document, embeddings, meta)
 index.upsert(vectors=list(upsert_data))
