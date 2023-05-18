@@ -1,0 +1,2 @@
+linux internal portforwarding (to run script on port, that doesn't requires sudo, an have in on port 80, for dataplicity wormhole):
+sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080
