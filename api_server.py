@@ -37,6 +37,7 @@ def get_unwritten_girl_bio():
     tnd_connector.open_tinder()
     name, bio = tnd_connector.get_first_match_bio()
     # send request to webhook
+    print('sending request to webhook')
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i', json={'type': 'bio', 'content': bio})
     return 200
 
@@ -49,4 +50,4 @@ def send_message_endpoint(message: Dict[str, str]):
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=80)
+    uvicorn.run(app, host='127.0.0.1', port=8080)
