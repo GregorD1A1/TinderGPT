@@ -7,34 +7,34 @@ from typing import Dict
 app = FastAPI()
 tnd_connector = DatingAppConnector()
 
-@app.get('/liking')
-def like():
-    open_tnd()
-    liking_tnd(5)
-    close_tnd()
-    return {'responce': 'Liking function executed successfully!'}
+
+@app.get('/')
+def check_driver_state():
+    response = "Driver up and running" if tnd_connector.driver else "Driver not running"
+    return response
 
 
 @app.get('/get_msgs')
-def get_messages():
+def get_newest_messages():
     print("msgs request arrived")
-    tnd_connector.open_tinder()
     messages = tnd_connector.get_msgs()
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
                   json={'type': 'messages', 'content': messages})
     return 200
 
 
-@app.get('/close')
-def close_tnd():
-    tnd_connector.close_tinder()
+@app.get('/get_msgs/{girl_nr}')
+def get_messages_with_nr(girl_nr: int = None):
+    print("msgs request arrived")
+    messages = tnd_connector.get_msgs(girl_nr)
+    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
+                  json={'type': 'messages', 'content': messages})
     return 200
 
 
 @app.get('/get_bio')
 def get_unwritten_girl_bio():
     print("bio request arrived")
-    tnd_connector.open_tinder()
     name, bio = tnd_connector.get_first_match_bio()
     # send request to webhook
     print('sending request to webhook')
@@ -50,4 +50,7 @@ def send_message_endpoint(message: Dict[str, str]):
 
 
 if __name__ == '__main__':
+    print("Opening Tinder")
+    tnd_connector.open_tinder()
+    print("Tinder activated")
     uvicorn.run(app, host='127.0.0.1', port=8080)

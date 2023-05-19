@@ -20,10 +20,12 @@ class DatingAppConnector():
         self.new_msg_flag_xpath = "//a[1]/div[1]/div[1]/div[2]"
         self.close_tinder_gold_enforser = "/html[1]/body[1]/div[2]/main[1]/div[1]/div[1]/div[3]/button[2]/span[1]"
         self.icons_xpath = "//div[2]/div[1]/ul[1]/li[.]/a[1]/div[1]/div[1]"
+        self.messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
+        self.written_girl_bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
 
     def open_tinder(self):
         options = webdriver.FirefoxOptions()
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
         #options.add_argument('-profile')
         #options.add_argument('FirefoxProfile')
         profile = webdriver.FirefoxProfile('FirefoxProfile')
@@ -55,14 +57,13 @@ class DatingAppConnector():
         self.driver.find_element('xpath', self.message_tab_xpath).click()
         for message in messages:
             print('Thinking about what to write...')
-            time.sleep(random.uniform(5, 10))
+            time.sleep(random.uniform(3, 7))
             text_field.send_keys(message)
             print('Typing...')
-            time.sleep(random.uniform(6, 16))
+            time.sleep(random.uniform(4, 10))
             text_field.send_keys(Keys.RETURN)
-            print('Sent the message')
+            print('Message sent')
             time.sleep(random.uniform(0.5, 1))
-            time.sleep(random.uniform(2, 4))
 
     def match_tab_xpath(self):
         try:
@@ -72,12 +73,11 @@ class DatingAppConnector():
         else:
             return "//div[1]/aside[1]/nav[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/button[1]"
 
-    def get_msgs(self):
+    # girl_nr is number of girl from the top of the list of message history
+    def get_msgs(self, girl_nr=None):
         print('trying to get messages')
-        messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
-        second_msg_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]"
-        bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
-        new_msg_flag = "//a[1]//div[1]//div[1]//div[2]"
+        new_msg_flag = "//a[1]/div[1]/div[1]/div[2]"
+        numbered_girl_xpath = f"//div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[{girl_nr}]"
         time.sleep(random.uniform(3, 5))
         # open message tab
         self.driver.find_element('xpath', self.message_tab_xpath).click()
@@ -88,14 +88,17 @@ class DatingAppConnector():
         except NoSuchElementException:
             pass
 
-        # last number in string is nr girl from top of the list
-        some_girl_xpath = "//div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[3]"
-        self.driver.find_element('xpath', new_msg_flag).click()
-        #self.driver.find_element('xpath', some_girl_xpath).click()
+        # entering message history based on number
+        if girl_nr:
+            self.driver.find_element('xpath', numbered_girl_xpath).click()
+        else:
+            self.driver.find_element('xpath', new_msg_flag).click()
+
+        print('message history entered')
         # waiting to all message load
-        Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, bio_xpath)))
+        Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, self.written_girl_bio_xpath)))
         time.sleep(random.uniform(0.5, 1))
-        messages = self.driver.find_elements('xpath', messages_xpath)
+        messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')
 
         message_prompt = ''
@@ -124,8 +127,6 @@ class DatingAppConnector():
         except NoSuchElementException:
             bio = ''
         return name, bio
-
-
 
 
 
