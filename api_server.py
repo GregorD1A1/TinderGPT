@@ -18,8 +18,9 @@ def check_driver_state():
 def get_newest_messages():
     print("msgs request arrived")
     messages = tnd_connector.get_msgs()
+    name_age = tnd_connector.get_name_age()
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
-                  json={'type': 'messages', 'content': messages})
+                  json={'type': 'messages', 'content': messages, 'name_age': name_age})
     return 200
 
 
@@ -27,8 +28,9 @@ def get_newest_messages():
 def get_messages_with_nr(girl_nr: int = None):
     print("msgs request arrived")
     messages = tnd_connector.get_msgs(girl_nr)
+    name_age = tnd_connector.get_name_age()
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
-                  json={'type': 'messages', 'content': messages})
+                  json={'type': 'messages', 'content': messages, 'name_age': name_age})
     return 200
 
 

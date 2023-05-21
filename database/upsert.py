@@ -29,4 +29,4 @@ meta = [{'text': rule['text']} for rule in document]
 # upsert data
 upsert_data = zip(ids_document, embeddings, meta)
 index.upsert(vectors=list(upsert_data))
-
+print('Data been upserted to database')
