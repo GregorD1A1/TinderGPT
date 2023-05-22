@@ -44,7 +44,6 @@ class DatingAppConnector():
         print('Waiting for the main page to load')
         Wait(self.driver, random.uniform(85, 100)).until(
             ExpCon.presence_of_element_located((By.XPATH, girl_card_xpath)))
-        print("girl found")
         time.sleep(random.uniform(1, 3))
         # closing tinder gold enforser
         #if ExpCon.presence_of_element_located((By.XPATH, self.close_tinder_gold_enforser)):
@@ -70,28 +69,21 @@ class DatingAppConnector():
     # girl_nr is number of girl from the top of the list of message history
     def get_msgs(self, girl_nr=None):
         print('trying to get messages')
-        new_msg_flag = "//a[1]/div[1]/div[1]/div[2]"
         numbered_girl_xpath = f"//div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[{girl_nr}]"
         time.sleep(random.uniform(3, 5))
         # open message tab
         self.driver.find_element('xpath', self.message_tab_xpath).click()
         time.sleep(random.uniform(0.5, 1))
-        # cleck on new message
-        try:
-            self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
-        except NoSuchElementException:
-            pass
-
         # entering message history based on number
         if girl_nr:
             self.driver.find_element('xpath', numbered_girl_xpath).click()
         else:
-            self.driver.find_element('xpath', new_msg_flag).click()
+            self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
 
         print('message history entered')
         # waiting to all message load
         Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, self.written_girl_bio_xpath)))
-        time.sleep(random.uniform(0.5, 1))
+        time.sleep(random.uniform(1.5, 2))
         messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')
 
