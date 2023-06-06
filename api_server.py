@@ -77,7 +77,5 @@ def close_app():
 
 
 if __name__ == '__main__':
-    print("Opening Connector")
-    dating_connector.open_dating_app()
-    print("Connector activated")
+    dating_connector.start_driver()
     uvicorn.run(app, host='127.0.0.1', port=8080)

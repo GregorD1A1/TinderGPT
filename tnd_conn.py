@@ -28,7 +28,8 @@ class TinderConnector():
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
 
-    def open_dating_app(self):
+    def start_driver(self):
+        print('Starting driver')
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
         #options.add_argument('-profile')
@@ -37,8 +38,9 @@ class TinderConnector():
         profile = webdriver.FirefoxProfile(f'{script_path}/FirefoxProfile')
         self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
         self.driver.maximize_window()
+        print('Driver activated')
 
-    def load_main_page(self, girl_card_xpath):
+    def load_main_page(self):
         self.driver.get("https://tinder.com")
         print('Waiting for the main page to load')
         Wait(self.driver, random.uniform(85, 100)).until(

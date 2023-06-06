@@ -30,15 +30,17 @@ class BadooConnector():
         self.written_text_area_xpath = "//div[2]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
         self.return_to_main_page_xpath = "//div[3]/aside[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/img[1]"
 
-    def open_dating_app(self):
+    def start_driver(self):
+        print('Starting driver')
         options = webdriver.FirefoxOptions()
-        #options.add_argument('--headless')
+        options.add_argument('--headless')
         #options.add_argument('-profile')
         #options.add_argument('FirefoxProfile')
         script_path = path.dirname(path.abspath(__file__))
         profile = webdriver.FirefoxProfile(f'{script_path}/FirefoxProfile')
         self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
         self.driver.maximize_window()
+        print('Driver activated')
 
     def load_main_page(self):
         self.driver.get("https://badoo.com")
