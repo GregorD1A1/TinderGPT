@@ -26,6 +26,8 @@ embeddings = [record['embedding'] for record in response['data']]
 # prepare metadata
 meta = [{'text': rule['text']} for rule in document]
 
+# delete previous data
+index.delete(delete_all=True)
 # upsert data
 upsert_data = zip(ids_document, embeddings, meta)
 index.upsert(vectors=list(upsert_data))

@@ -1,24 +1,33 @@
 from fastapi import FastAPI, Response
 import uvicorn
 import requests
-from tnd_conn import DatingAppConnector
+from tnd_conn import TinderConnector
+from bdo_conn import BadooConnector
 from typing import Dict
 
 app = FastAPI()
-tnd_connector = DatingAppConnector()
+dating_connector = TinderConnector()
+#dating_connector = BadooConnector()
 
 
 @app.get('/')
 def check_driver_state():
-    response = "Driver up and running" if tnd_connector.driver else "Driver not running"
+    response = "Driver up and running" if dating_connector.driver else "Driver not running"
     return response
+
+# load main page function
+@app.get('/open_app')
+def load_main_page():
+    print("main page request arrived")
+    dating_connector.load_main_page()
+    return 200
 
 
 @app.get('/get_msgs')
 def get_newest_messages():
     print("msgs request arrived")
-    messages = tnd_connector.get_msgs()
-    name_age = tnd_connector.get_name_age()
+    messages = dating_connector.get_msgs()
+    name_age = dating_connector.get_name_age()
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
                   json={'type': 'messages', 'content': messages, 'name_age': name_age})
     return 200
@@ -27,8 +36,8 @@ def get_newest_messages():
 @app.get('/get_msgs/{girl_nr}')
 def get_messages_with_nr(girl_nr: int = None):
     print("msgs request arrived")
-    messages = tnd_connector.get_msgs(girl_nr)
-    name_age = tnd_connector.get_name_age()
+    messages = dating_connector.get_msgs(girl_nr)
+    name_age = dating_connector.get_name_age()
     requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
                   json={'type': 'messages', 'content': messages, 'name_age': name_age})
     return 200
@@ -37,22 +46,38 @@ def get_messages_with_nr(girl_nr: int = None):
 @app.get('/get_bio')
 def get_unwritten_girl_bio():
     print("bio request arrived")
-    name, bio = tnd_connector.get_first_match_bio()
+    name, bio = dating_connector.get_bio()
     # send request to webhook
     print('sending request to webhook')
-    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i', json={'type': 'bio', 'content': bio})
+    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
+                  json={'type': 'bio', 'content': bio, 'name_age': name})
+    return 200
+
+
+@app.get('/get_bio/{girl_nr}')
+def get_unwritten_girl_bio(girl_nr: int = None):
+    print("bio request arrived")
+    name, bio = dating_connector.get_bio(girl_nr)
+    # send request to webhook
+    print('sending request to webhook')
+    requests.post('https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i',
+                  json={'type': 'bio', 'content': bio, 'name_age': name})
     return 200
 
 
 @app.post("/send_message")
-def send_message_endpoint(message: Dict[str, str]):
+def send_message_endpoint(payload: Dict[str, str]):
     print("message request arrived")
-    tnd_connector.send_messages([message["message"]])
+    dating_connector.send_message(payload['message'], payload['girl_type'])
     return 200
+
+@app.get("/close")
+def close_app():
+    dating_connector.close_app()
 
 
 if __name__ == '__main__':
-    print("Opening Tinder")
-    tnd_connector.open_tinder()
-    print("Tinder activated")
+    print("Opening Connector")
+    dating_connector.open_dating_app()
+    print("Connector activated")
     uvicorn.run(app, host='127.0.0.1', port=8080)
