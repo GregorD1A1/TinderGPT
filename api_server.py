@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Response
 import uvicorn
 import requests
-from tnd_conn import TinderConnector
-from bdo_conn import BadooConnector
+from connectors.tnd_conn import TinderConnector
+from connectors.bdo_conn import BadooConnector
 from typing import Dict
 
 app = FastAPI()
-dating_connector = TinderConnector()
-#dating_connector = BadooConnector()
+#dating_connector = TinderConnector()
+dating_connector = BadooConnector()
 
 
 @app.get('/')
@@ -74,6 +74,7 @@ def send_message_endpoint(payload: Dict[str, str]):
 @app.get("/close")
 def close_app():
     dating_connector.close_app()
+    return 200
 
 
 if __name__ == '__main__':

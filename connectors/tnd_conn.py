@@ -49,7 +49,7 @@ class TinderConnector():
 
     def close_app(self):
         print('Closing Tinder')
-        self.driver.close()
+        self.driver.get("about:blank")
 
     def send_message(self, message, type_of_girl=None):
         text_field = self.driver.find_element('xpath', self.text_area_xpath)

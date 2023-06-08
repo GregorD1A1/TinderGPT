@@ -51,7 +51,7 @@ class BadooConnector():
 
     def close_app(self):
         print('Closing Badoo')
-        self.driver.close()
+        self.driver.get("about:blank")
 
     def send_message(self, message, type_of_girl='unwritten'):
         if type_of_girl == 'unwritten':
@@ -69,7 +69,8 @@ class BadooConnector():
 
         time.sleep(random.uniform(1, 4))
         # return to main page
-        self.driver.find_element('xpath', self.return_to_main_page_xpath).click()
+        if type_of_girl == 'written':
+            self.driver.find_element('xpath', self.return_to_main_page_xpath).click()
 
     # girl_nr is number of girl from the top of the list of message history
     def get_msgs(self, girl_nr=None):
@@ -85,7 +86,7 @@ class BadooConnector():
             try:
                 self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
             except:
-                pass
+                return 'No new messages'
 
         print('message history entered')
         # waiting to all message load
