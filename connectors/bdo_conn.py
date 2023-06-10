@@ -1,24 +1,20 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as ExpCon
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException, \
-    NoSuchElementException, ElementNotInteractableException
+from selenium.common.exceptions import NoSuchElementException
 import time
-from datetime import datetime, timedelta
 import random
-import re
-from os import path
 
 
 class BadooConnector():
-    def __init__(self):
-        self.driver = None
+    def __init__(self, driver):
+        self.driver = driver
         # xpathes
         self.message_tab_xpath = "//aside[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/nav[1]/a[3]"
         self.match_tab_xpath = "//aside[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/nav[1]/a[4]"
-        self.new_msg_flag_xpath = "//section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[3]"
+        self.first_msg_flag_for_wait = "//section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[3]/span[1]"
+        self.new_msg_flags_xpath = "//section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[1]/div[1]/div[3]/span[1]"
         self.first_icon_xpath = "//main[1]/div[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
         self.icons_xpath = "//main[1]/div[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div['.']/div['.']"
         self.messages_xpath = "//div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div['.']/div[1]/div[1]/div[1]"
@@ -29,18 +25,6 @@ class BadooConnector():
         self.unwritten_text_area_xpath = "//div[3]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/input[1]"
         self.written_text_area_xpath = "//div[2]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
         self.return_to_main_page_xpath = "//div[3]/aside[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/img[1]"
-
-    def start_driver(self):
-        print('Starting driver')
-        options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
-        #options.add_argument('-profile')
-        #options.add_argument('FirefoxProfile')
-        script_path = path.dirname(path.abspath(__file__))
-        profile = webdriver.FirefoxProfile(f'{script_path}/FirefoxProfile')
-        self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
-        self.driver.maximize_window()
-        print('Driver activated')
 
     def load_main_page(self):
         self.driver.get("https://badoo.com")
@@ -78,19 +62,29 @@ class BadooConnector():
         numbered_girl_xpath = f"//div[1]/div[1]/div[1]/section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[{girl_nr}]"
         # open message tab
         self.driver.find_element('xpath', self.message_tab_xpath).click()
-        time.sleep(random.uniform(1, 2))
+        # wait for self.first_msg_flag_for_wait appearing
+        Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, self.first_msg_flag_for_wait)))
         # entering message history based on number
         if girl_nr:
             self.driver.find_element('xpath', numbered_girl_xpath).click()
         else:
-            try:
-                self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
-            except:
-                return 'No new messages'
+            # wait a second to have message counters be visible. They are blinking.
+            time.sleep(random.uniform(0.1, 0.2))
+            new_msgs_counters = self.driver.find_elements('xpath', self.new_msg_flags_xpath)
+            for i, counter in enumerate(new_msgs_counters):
+                # counter shows nr of new messages or '' in case of no new messages, but exists anyway
+                # we are looking for first counter that is not ''
+                if counter.text != '':
+                    new_msg_flag_xpath = f"//section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[{i + 1}]"
+                    self.driver.find_element('xpath', new_msg_flag_xpath).click()
+                    break
+            # if no messages found
+            return
+
 
         print('message history entered')
         # waiting to all message load
-        Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, self.written_text_area_xpath)))
+        Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, self.messages_xpath)))
         time.sleep(random.uniform(1.5, 4))
         messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')

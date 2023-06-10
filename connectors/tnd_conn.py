@@ -1,20 +1,15 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as ExpCon
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException, \
-    NoSuchElementException, ElementNotInteractableException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import time
-from datetime import datetime, timedelta
 import random
-import re
-from os import path
 
 
 class TinderConnector():
-    def __init__(self):
-        self.driver = None
+    def __init__(self, driver):
+        self.driver = driver
         # xpathes
         self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]"
         self.match_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/button[1]"
@@ -27,18 +22,6 @@ class TinderConnector():
         self.main_page_element_for_wait = "//nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[1]/a[1]/div[1]/div[3]"
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
-
-    def start_driver(self):
-        print('Starting driver')
-        options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
-        #options.add_argument('-profile')
-        #options.add_argument('FirefoxProfile')
-        script_path = path.dirname(path.abspath(__file__))
-        profile = webdriver.FirefoxProfile(f'{script_path}/FirefoxProfile')
-        self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
-        self.driver.maximize_window()
-        print('Driver activated')
 
     def load_main_page(self):
         self.driver.get("https://tinder.com")
