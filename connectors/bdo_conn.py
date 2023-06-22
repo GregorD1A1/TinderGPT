@@ -17,7 +17,7 @@ class BadooConnector():
         self.new_msg_flags_xpath = "//section[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[1]/div[1]/div[3]/span[1]"
         self.first_icon_xpath = "//main[1]/div[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
         self.icons_xpath = "//main[1]/div[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div['.']/div['.']"
-        self.messages_xpath = "//div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div['.']/div[1]/div[1]/div[1]"
+        self.messages_xpath = "//div[2]/div[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div['.']/div[1]/div[1]/div[1]"
         self.unwritten_girl_bio_xpath = "/html[1]/body[1]/div[3]/div[2]/main[1]/div[1]/div[1]/div[2]/div[3]/section[1]"
         self.written_girl_name_age_xpath = "//div[1]/div[1]/div[2]/div[1]/header[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
         self.unwritten_girl_name_xpath = "//div[2]/main[1]/div[1]/div[1]/div[1]/header[1]/div[2]/div[1]/h1[1]/span[1]"
@@ -80,7 +80,6 @@ class BadooConnector():
                     break
             # if no messages found
             return
-
 
         print('message history entered')
         # waiting to all message load

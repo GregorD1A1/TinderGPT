@@ -4,6 +4,7 @@ import requests
 from typing import Dict
 from connectors.tnd_conn import TinderConnector
 from connectors.bdo_conn import BadooConnector
+from connectors.bmb_conn import BumbleConnector
 from driver.driver import start_driver
 
 app = FastAPI()
@@ -79,5 +80,7 @@ def close_app():
 if __name__ == '__main__':
     driver = start_driver()
     tinder_connector = TinderConnector(driver)
-    dating_connector = BadooConnector(driver)
+    badoo_connector = BadooConnector(driver)
+    bumble_connector = BumbleConnector(driver)
+    dating_connector = badoo_connector
     uvicorn.run(app, host='127.0.0.1', port=8080)
