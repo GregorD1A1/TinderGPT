@@ -11,15 +11,15 @@ class TinderConnector():
     def __init__(self, driver):
         self.driver = driver
         # xpathes
-        self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/button[1]"
-        self.match_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/button[1]"
+        self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/button[1]"
+        self.match_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/button[1]"
         self.new_msg_flag_xpath = "//a[1]/div[1]/div[1]/div[2]"
-        self.icons_xpath = "//div[2]/div[1]/ul[1]/li[.]/a[1]/div[1]/div[1]"
+        self.icons_xpath = "//div[1]/div[1]/div[3]/div[1]/ul[1]/li['.']/a[1]/div[1]/div[1]"
         self.messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
         self.written_girl_bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
         self.unwritten_girl_bio_xpath = "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
         self.written_girl_name_age_xpath = "//div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]"
-        self.main_page_element_for_wait = "//nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/ul[1]/li[1]/a[1]/div[1]/div[3]"
+        self.main_page_element_for_wait = "//div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]"
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
 
@@ -50,7 +50,7 @@ class TinderConnector():
     # girl_nr is number of girl from the top of the list of message history
     def get_msgs(self, girl_nr=None):
         print('trying to get messages')
-        numbered_girl_xpath = f"//div[1]/div[1]/div[2]/div[2]/div[3]/ul[1]/li[{girl_nr}]"
+        numbered_girl_xpath = f"//div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[{girl_nr}]"
         # open message tab
         self.driver.find_element('xpath', self.message_tab_xpath).click()
         time.sleep(random.uniform(0.5, 1))
@@ -91,6 +91,7 @@ class TinderConnector():
         # number in square brackets is a number of girl to write (from 1)
         icons[1].click()
         time.sleep(3)
+        print('poczekałem 3s')
         Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, name_xpath)))
         name = self.driver.find_element('xpath', name_xpath).text
         try:
@@ -98,67 +99,3 @@ class TinderConnector():
         except NoSuchElementException:
             bio = ''
         return name, bio
-
-
-
-
-
-def liking_tnd(ilosc_klikniec):
-    # kliknięcie w pary (niepisane)
-    like_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]"
-    dislike_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]"
-    wiek_xpath = "//div[1]/div[3]/div[3]/div[1]/div[1]/div[1]/span[2]"
-    iks_polubionej_dziewczyny_xpath = "//*[@class='Sq(24px) P(4px)']"
-    wyjscie_z_wymuszacza_superlajka_xpath = "//span[contains(text(),'Nie, dziękuję')]"
-    zdjęcie_3_xpath = "//div[3]/div[1]/div[1]/span[3]"
-    liking(ilosc_klikniec, like_xpath, dislike_xpath, wiek_xpath,
-        iks_polubionej_dziewczyny_xpath, wyjscie_z_wymuszacza_superlajka_xpath,
-        zdjęcie_3_xpath)
-
-
-def liking(ilosc_klikniec, like_xpath, dislike_xpath, wiek_xpath,
-        iks_polubionej_dziewczyny_xpath, wyjscie_z_wymuszacza_superlajka_xpath,
-        zdjęcie_3_xpath):
-    for _ in range(ilosc_klikniec):
-        Wait(driver, 90).until(ExpCon.presence_of_element_located((By.XPATH,
-            wiek_xpath)))
-        # udawanie człowieka
-        time.sleep(random.uniform(0.5, 4))
-        wiek = int(driver.find_element('xpath', wiek_xpath).text)
-        # sprawdzanie, czy dziewczyna ma co najmniej 4 zdjęcia (zmniejszenie
-        # ryzyka donosu poprzez klikanie bardziej rozbudowanych dziewczyn)
-        try:
-            driver.find_element('xpath', zdjęcie_3_xpath)
-        except NoSuchElementException:
-            # znielubić
-            driver.find_element('xpath', dislike_xpath).click()
-            print('znielubiłem')
-            continue
-        if wiek >= 20:
-            # polubić
-            driver.find_element('xpath', like_xpath).click()
-            print('polubiłem')
-        else:
-            # znielubić
-            driver.find_element('xpath', dislike_xpath).click()
-            print('znielubiłem')
-            continue
-        # wyjście z pop-upu pary
-        try:
-            Wait(driver, 5).until(ExpCon.presence_of_element_located((By.XPATH,
-                iks_polubionej_dziewczyny_xpath)))
-            # udawanie człowieka
-            time.sleep(random.uniform(1.5, 3))
-            driver.find_element('xpath', iks_polubionej_dziewczyny_xpath).click()
-        except TimeoutException:
-            pass
-        # wyjście z pop-upu wymuszacza superlajka
-        try:
-            Wait(driver, 1).until(ExpCon.presence_of_element_located((
-                By.XPATH, wyjscie_z_wymuszacza_superlajka_xpath)))
-            # udawanie człowieka
-            time.sleep(random.uniform(1.5, 3))
-            driver.find_element('xpath',
-                wyjscie_z_wymuszacza_superlajka_xpath).click()
-        except TimeoutException:
-            pass

@@ -7,11 +7,15 @@ with open('api_keys.json', 'r') as f:
 openai.api_key = api_keys['openai']
 MODEL = 'text-embedding-ada-002'
 # init connection to pinecone
-pinecone.init(api_keys['pinecone'], environment='asia-northeast1-gcp')
-# connect to the index
-index = pinecone.Index('textspl')
+#pinecone.init(api_keys['pinecone'], environment='asia-northeast1-gcp')
+pinecone.init(api_keys['pinecone_en'], environment='us-west4-gcp-free')
 
-with open('baza_wiedzy.json', 'r', encoding='utf-8') as f:
+# connect to the index
+#index = pinecone.Index('textspl')
+index = pinecone.Index('textseng')
+
+#with open('baza_wiedzy.json', 'r', encoding='utf-8') as f:
+with open('knowledge_base_eng.json', 'r', encoding='utf-8') as f:
     document = json.load(f)
     document = document['rules']
 
