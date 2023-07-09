@@ -80,5 +80,5 @@ if __name__ == '__main__':
     tinder_connector = TinderConnector(driver)
     badoo_connector = BadooConnector(driver)
     bumble_connector = BumbleConnector(driver)
-    dating_connector = tinder_connector
+    dating_connector = badoo_connector
     uvicorn.run(app, host='127.0.0.1', port=8080)

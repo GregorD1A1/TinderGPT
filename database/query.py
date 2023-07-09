@@ -8,9 +8,9 @@ with open('api_keys.json', 'r') as f:
 openai.api_key = api_keys['openai']
 MODEL = 'text-embedding-ada-002'
 # init connection to pinecone
-pinecone.init(api_keys['pinecone'], environment='asia-northeast1-gcp')
+pinecone.init(api_keys['pinecone_en'], environment='us-west4-gcp-free')
 # connect to the index
-index = pinecone.Index('textspl')
+index = pinecone.Index('textseng')
 
 def query():
     query = 'Czas skupić się na zbudowaniu więzi emocjonalnej. W następnej wiadomości możesz spróbować zmienić temat rozmowy na coś bardziej osobistego i emocjonalnego, pytając ją o jakieś ważne dla niej wydarzenie lub doświadczenie z przeszłości (np. najpiękniejsze wspomnienie lub moment, który ją mocno wzruszył)'
@@ -22,4 +22,5 @@ def query():
         print(match['metadata']['text'])
         print(match['score'])
 
-index.delete(delete_all=True)
+#index.delete(delete_all=True)
+query()
