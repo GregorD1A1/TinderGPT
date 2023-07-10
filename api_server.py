@@ -17,10 +17,27 @@ def check_driver_state():
     response = "Driver up and running" if dating_connector.driver else "Driver not running"
     return response
 
-# load main page function
-@app.get('/open_app')
-def load_main_page():
+@app.get('/open_tnd')
+def load_main_page_tnd():
     print("main page request arrived")
+    global dating_connector
+    dating_connector = tinder_connector
+    dating_connector.load_main_page()
+    return 200
+
+@app.get('/open_bdo')
+def load_main_page_bdo():
+    print("main page request arrived")
+    global dating_connector
+    dating_connector = badoo_connector
+    dating_connector.load_main_page()
+    return 200
+
+@app.get('/open_bmb')
+def load_main_page_bmb():
+    print("main page request arrived")
+    global dating_connector
+    dating_connector = bumble_connector
     dating_connector.load_main_page()
     return 200
 
@@ -80,5 +97,4 @@ if __name__ == '__main__':
     tinder_connector = TinderConnector(driver)
     badoo_connector = BadooConnector(driver)
     bumble_connector = BumbleConnector(driver)
-    dating_connector = badoo_connector
     uvicorn.run(app, host='127.0.0.1', port=8080)
