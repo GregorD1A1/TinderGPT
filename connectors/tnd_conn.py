@@ -91,7 +91,6 @@ class TinderConnector():
         # number in square brackets is a number of girl to write (from 1)
         icons[1].click()
         time.sleep(3)
-        print('poczekałem 3s')
         Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, name_xpath)))
         name = self.driver.find_element('xpath', name_xpath).text
         try:
