@@ -77,7 +77,10 @@ class TinderConnector():
 
     # gets name_age from opened written girl
     def get_name_age(self):
-        return self.driver.find_element('xpath', self.written_girl_name_age_xpath).text
+        name_age = self.driver.find_element('xpath', self.written_girl_name_age_xpath).text
+        print(f'Got name_age: {name_age}')
+        return name_age
+
 
     def get_bio(self, girl_nr=None):
         print('get bio function')
