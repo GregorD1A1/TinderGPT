@@ -1,5 +1,5 @@
-FastAPI
-uvicorn
-selenium
-tenacity
-requests
+FastAPI==0.95.1
+uvicorn==0.22.0
+selenium==4.9.0
+tenacity==8.2.2
+requests=2.28.2
