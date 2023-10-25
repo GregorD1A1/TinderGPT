@@ -3,6 +3,6 @@ __pycache__/
 geckodriver.log
 conv2env/
 env/
-FirefoxProfile/
-!driver/FirefoxProfile/.gitkeep
+driver/FirefoxProfile/
+!driver/FirefoxProfile/ignore.txt
 database/api_keys.json
