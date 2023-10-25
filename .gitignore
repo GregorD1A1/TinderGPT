@@ -4,5 +4,5 @@ geckodriver.log
 conv2env/
 env/
 FirefoxProfile/
-!FirefoxProfile/.gitignore
+!driver/FirefoxProfile/.gitignore
 database/api_keys.json
