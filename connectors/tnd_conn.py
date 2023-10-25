@@ -17,11 +17,14 @@ class TinderConnector():
         self.icons_xpath = "//div[1]/div[1]/div[3]/div[1]/ul[1]/li['.']/a[1]/div[1]/div[1]"
         self.messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
         self.written_girl_bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
-        self.unwritten_girl_bio_xpath = "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
+        self.unwritten_girl_full_bio_xpath = "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
+        self.unwritten_girl_short_bio_xpath = \
+            "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]"
         self.written_girl_name_age_xpath = "//div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]"
         self.main_page_element_for_wait = "//div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]"
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
+        self.name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
 
     def load_main_page(self):
         self.driver.get("https://tinder.com")
@@ -69,9 +72,7 @@ class TinderConnector():
         # cut off last 5 messages
         messages = messages[-5:]
 
-        message_prompt = ''
-        for message in messages:
-            message_prompt += '- ' + message.text + '\n'
+        message_prompt = align_messages(messages)
 
         return message_prompt
 
@@ -81,10 +82,8 @@ class TinderConnector():
         print(f'Got name_age: {name_age}')
         return name_age
 
-
     def get_bio(self, girl_nr=None):
         print('get bio function')
-        name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
         self.driver.find_element('xpath', self.match_tab_xpath).click()
         time.sleep(random.uniform(2, 4))
         icons = self.driver.find_elements('xpath', self.icons_xpath)
@@ -94,10 +93,29 @@ class TinderConnector():
         # number in square brackets is a number of girl to write (from 1)
         icons[1].click()
         time.sleep(3)
-        Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, name_xpath)))
-        name = self.driver.find_element('xpath', name_xpath).text
+        Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, self.name_xpath)))
+        name = self.driver.find_element('xpath', self.name_xpath).text
+        # choose short or long bio dependant it short is long enough
         try:
-            bio = self.driver.find_element('xpath', self.unwritten_girl_bio_xpath).text
+            bio = self.driver.find_element('xpath', self.unwritten_girl_short_bio_xpath).text
         except NoSuchElementException:
-            bio = ''
+            bio = self.driver.find_element('xpath', self.unwritten_girl_full_bio_xpath).text
+        else:
+            if len(bio) < 25:
+                bio = self.driver.find_element('xpath', self.unwritten_girl_full_bio_xpath).text
+
         return name, bio
+
+
+# misc functions
+def align_messages(messages):
+    your_color = 'rgb(255, 255, 255)'
+    her_color = 'rgb(33, 38, 46)'
+    message_prompt = ''
+    for message in messages:
+        if message.value_of_css_property('color') == your_color:
+            message_prompt += 'Conversator: ' + message.text + '\n'
+        elif message.value_of_css_property('color') == her_color:
+            message_prompt = 'She: ' + message.text + '\n'
+
+    return message_prompt

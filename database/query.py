@@ -5,7 +5,7 @@ import json
 
 with open('api_keys.json', 'r') as f:
     api_keys = json.load(f)
-openai.api_key = api_keys['openai']
+openai.api_key = api_keys['openai_api']
 MODEL = 'text-embedding-ada-002'
 # init connection to pinecone
 pinecone.init(api_keys['pinecone_en'], environment='us-west4-gcp-free')

@@ -47,7 +47,7 @@ def get_newest_messages():
     print("msgs request arrived")
     messages = dating_connector.get_msgs()
     name_age = dating_connector.get_name_age()
-    requests.post(MAKE_HOOK, json={'type': 'messages', 'content': messages, 'name_age': name_age})
+    requests.post('http://localhost:7000/respond', json={'messages': messages, 'name_age': name_age})
     return 200
 
 
@@ -56,7 +56,7 @@ def get_messages_with_nr(girl_nr: int = None):
     print("msgs request arrived")
     messages = dating_connector.get_msgs(girl_nr)
     name_age = dating_connector.get_name_age()
-    requests.post(MAKE_HOOK, json={'type': 'messages', 'content': messages, 'name_age': name_age})
+    requests.post('http://localhost:7000/respond', json={'messages': messages, 'name_age': name_age})
     return 200
 
 
@@ -66,7 +66,7 @@ def get_unwritten_girl_bio():
     name, bio = dating_connector.get_bio()
     # send request to webhook
     print('sending request to webhook')
-    requests.post(MAKE_HOOK, json={'type': 'bio', 'content': bio, 'name_age': name})
+    requests.post('http://localhost:7000/opener', json={'content': bio, 'name': name})
     return 200
 
 
@@ -76,14 +76,14 @@ def get_unwritten_girl_bio(girl_nr: int = None):
     name, bio = dating_connector.get_bio(girl_nr)
     # send request to webhook
     print('sending request to webhook')
-    requests.post(MAKE_HOOK, json={'type': 'bio', 'content': bio, 'name_age': name})
+    requests.post(MAKE_HOOK, json={'content': bio, 'name_age': name})
     return 200
 
 
 @app.post("/send_message")
 def send_message_endpoint(payload: Dict[str, str]):
     print("message request arrived")
-    dating_connector.send_message(payload['message'], payload['girl_type'])
+    dating_connector.send_message(payload['message'])
     return 200
 
 @app.get("/close")
