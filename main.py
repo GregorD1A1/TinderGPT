@@ -1,21 +1,27 @@
 from fastapi import FastAPI, Response
 import uvicorn
 import requests
+import argparse
 from typing import Dict
 from connectors.tnd_conn import TinderConnector
 from connectors.bdo_conn import BadooConnector
 from connectors.bmb_conn import BumbleConnector
 from driver.driver import start_driver
+from AI_logic.respond import respond_to_girl
 
-#MAKE_HOOK = 'https://hook.eu1.make.com/esw5fwmyqwp2nxpyq51ii1k4abl2f65i'
-MAKE_HOOK = 'https://hook.eu1.make.com/9d2aig2r01r2jvqljx84jf66yoev28zh'
+
 app = FastAPI()
+parser = argparse.ArgumentParser(description='My Python Application.')
+parser.add_argument('-he', '--head', action='store_true',
+                    help='selenium in head (non-headless) option')
+args = parser.parse_args()
 
 
 @app.get('/')
 def check_driver_state():
     response = "Driver up and running" if dating_connector.driver else "Driver not running"
     return response
+
 
 @app.get('/open_tnd')
 def load_main_page_tnd():
@@ -25,6 +31,7 @@ def load_main_page_tnd():
     dating_connector.load_main_page()
     return 200
 
+
 @app.get('/open_bdo')
 def load_main_page_bdo():
     print("main page request arrived")
@@ -32,6 +39,7 @@ def load_main_page_bdo():
     dating_connector = badoo_connector
     dating_connector.load_main_page()
     return 200
+
 
 @app.get('/open_bmb')
 def load_main_page_bmb():
@@ -47,6 +55,7 @@ def get_newest_messages():
     print("msgs request arrived")
     messages = dating_connector.get_msgs()
     name_age = dating_connector.get_name_age()
+    #response = respond_to_girl(name_age, messages)
     requests.post('http://localhost:7000/respond', json={'messages': messages, 'name_age': name_age})
     return 200
 
@@ -76,7 +85,7 @@ def get_unwritten_girl_bio(girl_nr: int = None):
     name, bio = dating_connector.get_bio(girl_nr)
     # send request to webhook
     print('sending request to webhook')
-    requests.post(MAKE_HOOK, json={'content': bio, 'name_age': name})
+    requests.post('http://localhost:7000/opener', json={'content': bio, 'name': name})
     return 200
 
 
@@ -93,7 +102,7 @@ def close_app():
 
 
 if __name__ == '__main__':
-    driver = start_driver()
+    driver = start_driver(args.head)
     tinder_connector = TinderConnector(driver)
     badoo_connector = BadooConnector(driver)
     bumble_connector = BumbleConnector(driver)

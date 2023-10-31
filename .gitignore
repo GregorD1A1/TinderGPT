@@ -5,3 +5,4 @@ conv2env/
 env/
 FirefoxProfile/*
 database/api_keys.json
+AI_logic/*

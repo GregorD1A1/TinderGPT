@@ -21,7 +21,7 @@ class TinderConnector():
         self.unwritten_girl_short_bio_xpath = \
             "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]"
         self.written_girl_name_age_xpath = "//div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]"
-        self.main_page_element_for_wait = "//div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]"
+        self.main_page_element_for_wait = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]"
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
         self.name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
@@ -69,8 +69,8 @@ class TinderConnector():
         time.sleep(random.uniform(1.5, 4))
         messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')
-        # cut off last 5 messages
-        messages = messages[-5:]
+        # cut off last 4 messages
+        messages = messages[-4:]
 
         message_prompt = align_messages(messages)
 
@@ -82,7 +82,7 @@ class TinderConnector():
         print(f'Got name_age: {name_age}')
         return name_age
 
-    def get_bio(self, girl_nr=None):
+    def get_bio(self, girl_nr=1):
         print('get bio function')
         self.driver.find_element('xpath', self.match_tab_xpath).click()
         time.sleep(random.uniform(2, 4))
@@ -91,7 +91,7 @@ class TinderConnector():
             print('No girls to start a conversation with')
             return
         # number in square brackets is a number of girl to write (from 1)
-        icons[1].click()
+        icons[girl_nr].click()
         time.sleep(3)
         Wait(self.driver, 45).until(ExpCon.presence_of_element_located((By.XPATH, self.name_xpath)))
         name = self.driver.find_element('xpath', self.name_xpath).text
@@ -116,6 +116,6 @@ def align_messages(messages):
         if message.value_of_css_property('color') == your_color:
             message_prompt += 'Conversator: ' + message.text + '\n'
         elif message.value_of_css_property('color') == her_color:
-            message_prompt = 'She: ' + message.text + '\n'
+            message_prompt += 'Girl: ' + message.text + '\n'
 
     return message_prompt
