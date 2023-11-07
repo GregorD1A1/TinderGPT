@@ -53,11 +53,11 @@ class TinderConnector():
     # girl_nr is number of girl from the top of the list of message history
     def get_msgs(self, girl_nr=None):
         print('trying to get messages')
-        numbered_girl_xpath = f"//div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[{girl_nr}]"
         # open message tab
         self.driver.find_element('xpath', self.message_tab_xpath).click()
-        time.sleep(random.uniform(0.5, 1))
+        time.sleep(random.uniform(1, 1.5))
         # entering message history based on number
+        numbered_girl_xpath = f"//div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[{girl_nr}]"
         if girl_nr:
             self.driver.find_element('xpath', numbered_girl_xpath).click()
         else:

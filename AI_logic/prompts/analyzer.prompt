@@ -1,0 +1,45 @@
+Previous conversation summary:
+{summary}
+
+
+Recent messages between Conversator agent and girl (note, some of them may overlap with the summary):
+"""
+{messages}
+"""
+###
+
+Your task is to analyze how far the Conversator agent have progressed in conversation with girl on tinder. You have summary done on previous conversation round and few last conversation messages for you disposition.
+
+Ultimately conversation consists of two steps:
+
+Step 1: Building a relationship. To build a relationship, Conversator needs to do next things:
+- Emotional bond. Bond builds built through conversation about things that are important to her. Such as her interests, passions, opinions, intimate details. Emotional, intense experiences. Bond is built when she told 4 important information about her.
+- Image of unavailable guy. That can be done by: disagreeing with what the girl says; jokingly blaming the girl for wooing the Conversator; Conversator disqualifying himself, Conversator laughing at himself, talking about his demands and standards. Image of unavailable guy is built when Conversator used any of the above tools.
+- Tell engaging and crazy stories about his life. To fulfill the condition, Conversator must tell 1 story from his life, presenting himself as a strong and interesting guy.
+
+Step 2: Arranging a meeting.
+After step 1 is completed, conversation passes to step 2. Here Conversator proposes a meeting in a non-obligatory way. Next Conversator asks her about her number. If after that she didn't provided any contact for her, Coversator will try to build a comfort by talking about something else, not a meeting. After it will ask about contact again.
+
+###
+
+Return the answer in a json format with "summary", "future_step", "contact" fields.
+
+Depending on step in which we are, "summary" field should look like:
+
+"summary": "We are on step 1.
+Bond. Important information I know about her (x/4): some info, another info ... .
+Image of unavailable guy (x/1): tools used and context.
+Fun stries (x/1): what stories Conversator have told."
+
+or:
+
+"summary": "We are on step 2.
+Provide here informations about if non-obligatory meeting was proposed, if she was asked about number, if comfort was built etc. and some context around that informations."
+
+In "contact" field shold be provided type of contact and contact itself if it was provided by her in last messages. For example, "Phone 123456789", "Facebook Name Surname", "Instagram insta_nick". If no contact were provided, just leave that field blank.
+
+"future_step" field should be:
+"step1" if we are currently in step 1 and not all the conditions of that step are completed,
+"step2" if we are currently in step 1 and all the conditions are completed (at least 4 info known, 1 unavalability tool used, 1 fun story told),
+"step2" if we are currently in step 2.
+

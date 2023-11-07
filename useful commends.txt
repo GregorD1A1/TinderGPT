@@ -1,4 +1,0 @@
-linux internal portforwarding (to run script on port, that doesn't requires sudo, an have in on port 80, for dataplicity wormhole):
-sudo iptables -t nat -I OUTPUT -p tcp -d 127.0.0.1 --dport 80 -j REDIRECT --to-ports 8080
-After that rule needs to be saved to not get erased after reboot. To do it, you need to install "sudo apt install iptables-persistent" package and agree for saving rules during installation. If package already installed and rules are changed, you can save them by "sudo sh -c 'iptables-save > /etc/iptables/rules.v4'", "sudo sh -c 'ip6tables-save > /etc/iptables/rules.v6'".
-To check current rules use "sudo iptables -t nat -L"

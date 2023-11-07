@@ -3,6 +3,7 @@ __pycache__/
 geckodriver.log
 conv2env/
 env/
+venv/
 FirefoxProfile/*
 database/api_keys.json
-AI_logic/*
+useful_commends.txt

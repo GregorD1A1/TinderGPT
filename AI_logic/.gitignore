@@ -1,0 +1,4 @@
+settings.json
+wandb/
+.idea/
+__pychache__/
