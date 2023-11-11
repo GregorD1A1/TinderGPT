@@ -9,7 +9,6 @@ from dotenv import load_dotenv, find_dotenv
 from pushbullet import Pushbullet
 from tenacity import retry, stop_after_attempt, wait_fixed
 
-
 # api keys import
 load_dotenv(find_dotenv())
 language = os.environ['LANGUAGE']
@@ -37,6 +36,7 @@ pushbullet = Pushbullet(os.environ['PUSHBULLET_API_KEY'])
 Analyzer = ChatOpenAI(model='gpt-4', temperature=0)
 Commander = ChatOpenAI(model='gpt-4', temperature=0.4)
 Writer = ChatOpenAI(model='gpt-4', temperature=0.7)
+#print(Writer.model_name)
 
 analyser_chain = analyzer_prompt | Analyzer | StrOutputParser()
 writer_chain = writer_prompt | Writer | StrOutputParser()
@@ -49,14 +49,15 @@ def commander_chain(future_step):
         return commander_step2_prompt | Commander | StrOutputParser()
 
 
-def log_retry(retry_state):
-    print("Did not received response from OpenAI. Retrying request...")
-
-
-@retry(stop=stop_after_attempt(3), wait=wait_fixed(90), before_sleep=log_retry)
+# retry decorator to retry if openai request didn't returned
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(90))
 def invoke_chain(chain, args):
-    output = chain.invoke(args)
-    return json.loads(output)
+    try:
+        output = chain.invoke(args)
+        return json.loads(output)
+    except Exception as e:
+        print(f"Error encountered: \n{str(e)}]n{str(e.args)}\nRetrying...")
+        raise e
 
 
 def respond_to_girl(name_age, messages):
