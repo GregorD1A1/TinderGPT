@@ -2,9 +2,7 @@ from fastapi import FastAPI, Response
 import uvicorn
 import argparse
 from typing import Dict
-from connectors.tnd_conn import TinderConnector
-from connectors.bdo_conn import BadooConnector
-from connectors.bmb_conn import BumbleConnector
+from driver.connectors.tnd_conn import TinderConnector
 from driver.driver import start_driver
 import AI_logic.respond
 import AI_logic.opener
@@ -35,24 +33,6 @@ def load_main_page_tnd():
     return 200
 
 
-@app.get('/start_bdo')
-def load_main_page_bdo():
-    print("main page request arrived")
-    global dating_connector
-    dating_connector = badoo_connector
-    dating_connector.load_main_page()
-    return 200
-
-
-@app.get('/start_bmb')
-def load_main_page_bmb():
-    print("main page request arrived")
-    global dating_connector
-    dating_connector = bumble_connector
-    dating_connector.load_main_page()
-    return 200
-
-
 @app.get('/respond')
 def get_newest_messages():
     print("msgs request arrived")
@@ -68,7 +48,6 @@ def get_messages_with_nr(girl_nr: int = None):
     print("msgs request arrived")
     messages = dating_connector.get_msgs(girl_nr)
     name_age = dating_connector.get_name_age()
-    response =  dating_connector.get_name_age()
     response = AI_logic.respond.respond_to_girl(name_age, messages)
     send_message_endpoint(payload={'message': response})
     return 200
