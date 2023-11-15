@@ -38,3 +38,23 @@ Paste provided id after "AIRTABLE_WORKSPACE_ID=" on .env file.
 5. Use 'localhost:8080/opener' to TinderGPT send opening message to first liked girl. Advanced: You can use 'localhost:8080/opener/<girl_nr>', where instead of <girl_nr> provide nr 1-8 to open concrete girl from list.
 6. When girl respond, run 'localhost:8080/respond'. TinderGPT will open first unreaded message and will continue conversation. Advanced: You can use 'localhost:8080/respond/<girl_nr>', where instead of <girl_nr> provide nr 1-8 of girl from conversations list. Useful where you accasionally clicked on girl that responded you and unreaded message sign dissapeared.
 7. Happy effortless dating!
+
+
+
+### Raspberry Pi installation
+1. You need to have at least RPi 4 (maybe 3 is also ok, should be tested) with at least 4 GB of RAM.
+2. Install Ubuntu desctop version. You can use Raspberry Pi Imager for this. Unfortunatelly, Firefox geckodriver don't work for Raspberry Pi OS, that's why we using Ubuntu.
+3. Proceed with steps 1-7 from PC installation instruction. You'll need to connect RPi to screen or use VNC to create Firefox profile.
+4. If you previosely tried application on PC, just copy '.env' file to Raspberry to work on same girls table. If not, proceed. with steps 8-12 from PC installation.
+5. Now you set up!
+
+### Raspberry Pi usage
+1. Activate virtual envinronment and run 'python main.py'. That will start TinderGPT in headless mode. It's recommended to start it as a process or at least use tmux library to be able to return to terminal session after it will be closed.
+2. At another terminal, activate virtual envinronment and run 'python scheduler.py'. That will start scheduler module, that sends automatic requests to main module everyday. It's also recommended to start it as a process or at least use tmux library to be able to return to terminal session after it will be closed.
+3. Now your fully automatic process of writing to girls is set up!
+
+
+## Contribution
+While application is already working, there still a lot of things to improve. I'm appreciate if you want to contribute to project. 
+
+While iproving prompts, pick-up rules knowledge file or scripts in AI_logic folder, use 'localhost:8080/reload' to reload changes fast without restarting whole the application (which is time-consuming).
