@@ -8,7 +8,7 @@ While for a regular (production hehe) use it's recommended to use Raspberry Pi, 
 
 ### PC Installation
 
-1. Clone repository'git clone https://github.com/GregorD1A1/TinderGPT'
+1. Clone repository `git clone https://github.com/GregorD1A1/TinderGPT`
 2. Go to repository 'cd TinderGPT'
 3. Create virtual envinronment with 'python -m venv env'
 4. Activate envinronment with 'env\Scripts\activate' on Windows or 'source env/bin/activate' on Linux
