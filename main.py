@@ -71,6 +71,13 @@ def get_unwritten_girl_bio(girl_nr: int = None):
     return 200
 
 
+@app.get('/rise')
+def rise_girls():
+    print("Rise request arrived")
+    dating_connector.rise_girls()
+    return 200
+
+
 @app.post("/send_message")
 def send_message_endpoint(payload: Dict[str, str]):
     print("message request arrived")

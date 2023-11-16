@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as ExpCon
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from AI_logic.airtable import girls_to_rise
 import time
 import random
 
@@ -52,6 +53,17 @@ class TinderConnector():
 
     # girl_nr is number of girl from the top of the list of message history
     def get_msgs(self, girl_nr=None):
+        self.enter_messages(girl_nr)
+        messages = self.driver.find_elements('xpath', self.messages_xpath)
+        print('messages found')
+        # cut off last 4 messages
+        messages = messages[-4:]
+
+        message_prompt = align_messages(messages)
+
+        return message_prompt
+
+    def enter_messages(self, girl_nr=None):
         print('trying to get messages')
         # open message tab
         self.driver.find_element('xpath', self.message_tab_xpath).click()
@@ -63,18 +75,10 @@ class TinderConnector():
         else:
             self.driver.find_element('xpath', self.new_msg_flag_xpath).click()
 
-        print('message history entered')
         # waiting to all message load
         Wait(self.driver, 30).until(ExpCon.presence_of_element_located((By.XPATH, self.written_girl_bio_xpath)))
+        print('message history entered')
         time.sleep(random.uniform(1.5, 4))
-        messages = self.driver.find_elements('xpath', self.messages_xpath)
-        print('messages found')
-        # cut off last 4 messages
-        messages = messages[-4:]
-
-        message_prompt = align_messages(messages)
-
-        return message_prompt
 
     # gets name_age from opened written girl
     def get_name_age(self):
@@ -105,6 +109,33 @@ class TinderConnector():
                 bio = self.driver.find_element('xpath', self.unwritten_girl_full_bio_xpath).text
 
         return name, bio
+
+    def rise_girls(self):
+        # open message tab
+        self.driver.find_element('xpath', self.message_tab_xpath).click()
+        time.sleep(random.uniform(1, 1.5))
+
+        # return if any unwritten girls exist
+        try:
+            self.driver.find_element(By.XPATH, self.new_msg_flag_xpath)
+            print('Can\'t rise, answer to all the girls first')
+            return
+        except NoSuchElementException:
+            pass
+
+        to_rise = girls_to_rise()
+        for girl_nr in range(5, 25):
+            print(girl_nr)
+            self.enter_messages(girl_nr)
+            name_age = self.get_name_age()
+
+            if name_age in to_rise:
+                print(f'Rising {name_age}')
+                self.send_message('Dzień dobry! A ja tu wciąż czekam na odpowiedź...')
+                time.sleep(random.uniform(1, 2))
+
+        print("All girls rised")
+
 
 
 # misc functions

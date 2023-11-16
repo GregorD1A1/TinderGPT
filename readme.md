@@ -22,9 +22,9 @@ After profile is created, set up your old profile default again (it sets created
 9. Here we need to fullfil provided fields. After "Language" provide your language (language TinderGPT will write in) without any parenthesis. For example, in my case it looks like: `LANGUAGE=Polish`.
 10. Provede your OpenAI API key from OpenAI website.
 11. Airtable:
-Now we need to set up Airtable to TinderGPT be available remember informations about girls. Additional plus of Airtable is that memory will be common for diifferent devices if you'll use TInderGPT on more than one computer. Go to airtable.com and create account if you have no. Go to "Developer Hub" -> "Personal access token" and create new token. Add to it all possible rights. Paste it to .env file after "AIRTABLE_TOKEN=".
+Now we need to set up Airtable to TinderGPT be available remember informations about girls. Additional plus of Airtable is that memory will be common for diifferent devices if you'll use TInderGPT on more than one computer. Go to airtable.com and create account if you have no. Go to Yor profile icon -> "Developer Hub" -> "Personal access token" and create new token. Write some name, under the "scopes" choose all possible options. Under the scope choose "All current and future bases in all current and future workspaces". Paste it to .env file after "AIRTABLE_TOKEN=".
 
-After to to main page -> "All workspaces" -> click on "My first workspace". When you entered workspace, at the adress bar of your browser you'll find workspace id as shown on the image.
+After to to main page -> "All workspaces" -> click on "My first workspace". When you entered workspace, at the adress bar of your browser you'll find workspace id as shown on the image. Question mark at the end is not part of the workspace id.
 ![Airtable workspace](images/Airtable_workspace.png)
 Paste provided id after "AIRTABLE_WORKSPACE_ID=" on `.env` file.
 12. Pushbullet: Pushbullet needed to get phone notification every time TinderGPT receives contact from girl. If you just testing application for a first time, you can skip that step for now and return to it later. Go to pushbullet.com, at "My account" create access token and paste it after "PUSHBULLET_API_KEY=". Install pushbullet app on your phone and connect it with computer.

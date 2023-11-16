@@ -1,7 +1,7 @@
 import os
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from dotenv import load_dotenv, find_dotenv
 
 
@@ -80,6 +80,25 @@ def upsert_record(name_age, summary):
         ]
     }
     requests.patch(url, headers=auth_header, data=json.dumps(data))
+
+
+def girls_to_rise():
+    # start date 3 days ago
+    start_date = datetime.today() - timedelta(days=2)
+    # end date 9 days ago
+    end_date = datetime.today() - timedelta(days=10)
+    url = f"https://api.airtable.com/v0/{base_id}/{table_id}"
+    all_girls = requests.get(url, headers=auth_header)
+    girls_to_rise = []
+    for record in all_girls.json()['records']:
+        date_of_record = datetime.strptime(record['fields']['last_contact'], '%d-%m-%Y')
+        if start_date > date_of_record > end_date:
+            # append name_age to list
+            girls_to_rise.append(record['fields']['name_age'])
+
+    return girls_to_rise
+
+
 
 
 # create new base if no base saved in .env file

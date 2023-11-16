@@ -31,7 +31,9 @@ with open(f'{current_dir}/prompts/writer.prompt', 'r') as file:
     prompt_template = file.read()
 writer_prompt = PromptTemplate.from_template(prompt_template)
 
-pushbullet = Pushbullet(os.environ['PUSHBULLET_API_KEY'])
+pushbullet_key = os.getenv('PUSHBULLET_API_KEY')
+if pushbullet_key:
+    pushbullet = Pushbullet(pushbullet_key)
 
 Analyzer = ChatOpenAI(model='gpt-4', temperature=0)
 Commander = ChatOpenAI(model='gpt-4', temperature=0.4)
