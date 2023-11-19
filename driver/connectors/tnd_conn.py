@@ -30,7 +30,7 @@ class TinderConnector():
     def load_main_page(self):
         self.driver.get("https://tinder.com")
         print('Waiting for the main page to load')
-        Wait(self.driver, random.uniform(85, 100)).until(
+        Wait(self.driver, 140).until(
             ExpCon.presence_of_element_located((By.XPATH, self.main_page_element_for_wait)))
         time.sleep(random.uniform(1, 3))
 

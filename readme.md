@@ -37,7 +37,7 @@ Paste provided id after "AIRTABLE_WORKSPACE_ID=" on `.env` file.
 3. After TinderGPT browser window will appear, on your old browser window paste `localhost:8080/start_tnd` to open tinder. Wait until you get response "200" in browser, it will take a while. Do not send next requests until you get response for a preious.
 5. Use `localhost:8080/opener` to TinderGPT send opening message to first liked girl. Advanced: You can use `localhost:8080/opener/<girl_nr>`, where instead of <girl_nr> provide nr 1-8 to open concrete girl from list.
 6. When girl respond, run 'localhost:8080/respond'. TinderGPT will open first unreaded message and will continue conversation. Advanced: You can use `localhost:8080/respond/<girl_nr>`, where instead of <girl_nr> provide nr 1-8 of girl from conversations list. Useful where you accasionally clicked on girl that responded you and unreaded message sign dissapeared.
-7. Happy effortless dating!
+7. Play around the app! When you get known with it, deploy it on raspberry for fully authomatic usage.
 
 
 

@@ -56,6 +56,7 @@ def commander_chain(future_step):
 def invoke_chain(chain, args):
     try:
         output = chain.invoke(args)
+        print(output)
         return json.loads(output)
     except Exception as e:
         print(f"Error encountered: \n{str(e)}]n{str(e.args)}\nRetrying...")
@@ -77,7 +78,8 @@ def respond_to_girl(name_age, messages):
     commander_output = invoke_chain(commander_chain(future_step), {'summary': summary, 'messages': messages})
     print(f'\nCommander says:\n{json.dumps(commander_output, indent=4)}')
 
-    rules = "\n###\n- ".join([query_rule(tag) for tag in commander_output['tags']])
+    tags = commander_output['tags']
+    rules = "\n###\n- ".join([query_rule(tag) for tag in tags])
     writer_output = invoke_chain(writer_chain, {
         'rules': rules,
         'suggestion': commander_output['proposition_about_message'],
@@ -86,5 +88,12 @@ def respond_to_girl(name_age, messages):
     })
     print(f'\nWriter says:\n{json.dumps(writer_output, indent=4, ensure_ascii=False)}')
 
+    message = writer_output['message']
+    # update summary in case of attractive guy image or storytelling
+    if 'Attractive guy image' in tags or 'Storytelling' in tags:
+        analyzer2_output = invoke_chain(analyser_chain, {'summary': summary, 'messages': f'Conversator: {message}'})
+        print(f'Analyzer2 says:\n{json.dumps(analyzer_output, indent=4)}')
+        summary = analyzer2_output['summary']
+
     upsert_record(name_age, summary)
-    return writer_output['message']
+    return message
