@@ -53,11 +53,13 @@ def commander_chain(future_step):
 
 # retry decorator to retry if openai request didn't returned
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(90))
-def invoke_chain(chain, args):
+def invoke_chain(chain, args, module_name=None):
     try:
         output = chain.invoke(args)
-        print(output)
-        return json.loads(output)
+        output = json.loads(output)
+        print(f'\n{module_name} says:')
+        print(json.dumps(output, indent=4, ensure_ascii=False))
+        return output
     except Exception as e:
         print(f"Error encountered: \n{str(e)}]n{str(e.args)}\nRetrying...")
         raise e
@@ -65,8 +67,9 @@ def invoke_chain(chain, args):
 
 def respond_to_girl(name_age, messages):
     previous_summary = get_record(name_age)
-    analyzer_output = invoke_chain(analyser_chain, {'summary': previous_summary, 'messages': messages})
-    print(f'Analyzer says:\n{json.dumps(analyzer_output, indent=4)}')
+    analyzer_output = invoke_chain(
+        analyser_chain, {'summary': previous_summary, 'messages': messages}, 'Analyzer'
+    )
 
     future_step = analyzer_output['future_step']
     summary = analyzer_output['summary']
@@ -75,8 +78,9 @@ def respond_to_girl(name_age, messages):
         pushbullet.push_note(f"I planned date with {name_age}", contact)
         return
 
-    commander_output = invoke_chain(commander_chain(future_step), {'summary': summary, 'messages': messages})
-    print(f'\nCommander says:\n{json.dumps(commander_output, indent=4)}')
+    commander_output = invoke_chain(
+        commander_chain(future_step), {'summary': summary, 'messages': messages},'Commander'
+    )
 
     tags = commander_output['tags']
     rules = "\n###\n- ".join([query_rule(tag) for tag in tags])
@@ -85,14 +89,14 @@ def respond_to_girl(name_age, messages):
         'suggestion': commander_output['proposition_about_message'],
         'messages': messages,
         'language': language,
-    })
-    print(f'\nWriter says:\n{json.dumps(writer_output, indent=4, ensure_ascii=False)}')
+    }, 'Writer')
 
     message = writer_output['message']
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
-        analyzer2_output = invoke_chain(analyser_chain, {'summary': summary, 'messages': f'Conversator: {message}'})
-        print(f'Analyzer2 says:\n{json.dumps(analyzer_output, indent=4)}')
+        analyzer2_output = invoke_chain(
+            analyser_chain, {'summary': summary, 'messages': f'Conversator: {message}'}, 'Analyzer2'
+        )
         summary = analyzer2_output['summary']
 
     upsert_record(name_age, summary)

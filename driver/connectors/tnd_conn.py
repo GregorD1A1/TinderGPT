@@ -2,10 +2,13 @@ from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as ExpCon
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from AI_logic.airtable import girls_to_rise
+from selenium.common.exceptions import NoSuchElementException
+from AI_logic.airtable import girls_to_rise, upsert_record
+from AI_logic.misc import translate_rise_msg
 import time
 import random
+import os
+import sys
 
 
 class TinderConnector():
@@ -26,6 +29,11 @@ class TinderConnector():
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
         self.name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
+
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        self.project_dir = os.path.dirname(os.path.dirname(current_dir))
+
+        self.translate_rise_msg_if_needed()
 
     def load_main_page(self):
         self.driver.get("https://tinder.com")
@@ -123,6 +131,11 @@ class TinderConnector():
         except NoSuchElementException:
             pass
 
+        self.translate_rise_msg_if_needed()
+        with open(f'{self.project_dir}/AI_logic/cached_messages/rise_msg.txt', 'r', encoding='utf-8') as file:
+            rise_msg = file.read()
+            print(rise_msg)
+
         to_rise = girls_to_rise()
         for girl_nr in range(5, 25):
             print(girl_nr)
@@ -131,12 +144,19 @@ class TinderConnector():
 
             if name_age in to_rise:
                 print(f'Rising {name_age}')
-                self.send_message('Dzień dobry! A ja tu wciąż czekam na odpowiedź...')
+                self.send_message(rise_msg)
+                upsert_record(name_age, not_to_rise=True)
                 time.sleep(random.uniform(1, 2))
 
         print("All girls rised")
 
-
+    def translate_rise_msg_if_needed(self):
+        if not os.path.isfile(f'{self.project_dir}/AI_logic/cached_messages/rise_msg.txt'):
+            with open(f'{self.project_dir}/AI_logic/cached_messages/rise_msg_orig.txt', 'r', encoding='utf-8') as file:
+                orig_rise_msg = file.read()
+            rise_msg = translate_rise_msg(orig_rise_msg)
+            with open(f'{self.project_dir}/AI_logic/cached_messages/rise_msg.txt', 'w', encoding='utf-8') as file:
+                file.write(rise_msg)
 
 # misc functions
 def align_messages(messages):
