@@ -96,7 +96,7 @@ def girls_to_rise():
     # start date 3 days ago
     start_date = datetime.today() - timedelta(days=2)
     # end date 9 days ago
-    end_date = datetime.today() - timedelta(days=10)
+    end_date = datetime.today() - timedelta(days=8)
     url = f"https://api.airtable.com/v0/{base_id}/{table_id}"
     all_girls = requests.get(url, headers=auth_header)
     girls_to_rise = []

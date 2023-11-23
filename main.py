@@ -34,7 +34,7 @@ def load_main_page_tnd():
 
 
 @app.get('/respond')
-def get_newest_messages():
+def respond():
     print("msgs request arrived")
     messages = dating_connector.get_msgs()
     name_age = dating_connector.get_name_age()
@@ -44,12 +44,21 @@ def get_newest_messages():
 
 
 @app.get('/respond/{girl_nr}')
-def get_messages_with_nr(girl_nr: int = None):
+def respond_nr(girl_nr: int = None):
     print("msgs request arrived")
     messages = dating_connector.get_msgs(girl_nr)
     name_age = dating_connector.get_name_age()
     response = AI_logic.respond.respond_to_girl(name_age, messages)
     send_message_endpoint(payload={'message': response})
+    return 200
+
+@app.get('/respond_all')
+def respond_to_all():
+    print("respond all request arrived")
+    new_messages_nr = dating_connector.count_new_messages()
+    for i in range(new_messages_nr):
+        respond()
+
     return 200
 
 

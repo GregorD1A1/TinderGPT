@@ -18,6 +18,8 @@ class TinderConnector():
         self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/button[1]"
         self.match_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/button[1]"
         self.new_msg_flag_xpath = "//a[1]/div[1]/div[1]/div[2]"
+        "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[1]/a[1]/div[1]/div[1]/div[2]"
+        "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[2]/a[1]/div[1]/div[1]/div[2]"
         self.icons_xpath = "//div[1]/div[1]/div[3]/div[1]/ul[1]/li['.']/a[1]/div[1]/div[1]"
         self.messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
         self.written_girl_bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
@@ -88,6 +90,13 @@ class TinderConnector():
         print('message history entered')
         time.sleep(random.uniform(1.5, 4))
 
+    def count_new_messages(self):
+        # open message tab
+        self.driver.find_element('xpath', self.message_tab_xpath).click()
+        time.sleep(random.uniform(1, 2))
+
+        return len(self.driver.find_elements('xpath', self.new_msg_flag_xpath))
+
     # gets name_age from opened written girl
     def get_name_age(self):
         name_age = self.driver.find_element('xpath', self.written_girl_name_age_xpath).text
@@ -137,7 +146,7 @@ class TinderConnector():
             print(rise_msg)
 
         to_rise = girls_to_rise()
-        for girl_nr in range(5, 25):
+        for girl_nr in range(5, 15):
             print(girl_nr)
             self.enter_messages(girl_nr)
             name_age = self.get_name_age()

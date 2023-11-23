@@ -8,3 +8,4 @@ venv/
 FirefoxProfile/*
 database/api_keys.json
 useful_commends.txt
+AI_logic/cached_messages/rise_msg.txt

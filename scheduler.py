@@ -8,11 +8,11 @@ BASE_URL = 'http://localhost:8080'
 SESSION_CONFIG = {
     'session1': {
         'time_range': (18, 19),
-        'endpoints': ['/start_tnd', '/respond', '/respond', '/respond', '/opener', '/opener', '/opener', '/close'],
+        'endpoints': ['/start_tnd', '/respond_all', '/opener', '/opener', '/opener', '/close'],
     },
     'session2': {
         'time_range': (20, 21),
-        'endpoints': ['/start_tnd', '/respond', '/respond', '/respond', '/close'],
+        'endpoints': ['/start_tnd', '/respond_all', '/rise', '/close'],
     },
 }
 
