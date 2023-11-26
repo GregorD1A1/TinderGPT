@@ -27,5 +27,4 @@ Suggest what the message should be about. Do not propose the exact content of th
 Return an answer in a json format with "reasoning", "proposition_about_message" and "tags" fields.
 
 "reasoning" - step-by-step reasoning what about should be next message and why.
-"proposition_about_message" - proposal on what Conversator should focus in the next message in few simple words (up to 6),
 "tags" - choose tags among "Suggesting meeting", "Comfort", "Providing meeting details", "Ask for contact". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.

@@ -24,5 +24,4 @@ Keep the conversation flowing naturally. For example, if she's just asked a ques
 Return an answer in a json format with "reasoning", "proposition_about_message" and "tags" fields.
 
 "reasoning" - take a deep breath and reason step-by-step what about should be next message and why.
-"proposition_about_message" - proposal on what Conversator should focus in the next message in few simple words (up to 6),
 "tags" - choose tags among "Bond", "Attractive guy image", "Storytelling". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.
