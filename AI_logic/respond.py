@@ -86,7 +86,6 @@ def respond_to_girl(name_age, messages):
     rules = "\n###\n- ".join([query_rule(tag) for tag in tags])
     writer_output = invoke_chain(writer_chain, {
         'rules': rules,
-        'suggestion': commander_output['proposition_about_message'],
         'messages': messages,
         'language': language,
     }, 'Writer')
