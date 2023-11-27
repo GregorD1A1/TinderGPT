@@ -35,6 +35,7 @@ pushbullet_key = os.getenv('PUSHBULLET_API_KEY')
 if pushbullet_key:
     pushbullet = Pushbullet(pushbullet_key)
 
+
 Analyzer = ChatOpenAI(model='gpt-4', temperature=0)
 Commander = ChatOpenAI(model='gpt-4', temperature=0.4)
 Writer = ChatOpenAI(model='gpt-4', temperature=0.7)
@@ -51,7 +52,7 @@ def commander_chain(future_step):
         return commander_step2_prompt | Commander | StrOutputParser()
 
 
-# retry decorator to retry if openai request didn't returned
+# retry decorator to retry if openai request didn't return
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(90))
 def invoke_chain(chain, args, module_name=None):
     try:
