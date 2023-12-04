@@ -39,7 +39,7 @@ def respond():
     messages = dating_connector.get_msgs()
     name_age = dating_connector.get_name_age()
     response = AI_logic.respond.respond_to_girl(name_age, messages)
-    send_message_endpoint({'message': response})
+    send_messages_endpoint({'message': response})
     return 200
 
 
@@ -49,7 +49,7 @@ def respond_nr(girl_nr: int = None):
     messages = dating_connector.get_msgs(girl_nr)
     name_age = dating_connector.get_name_age()
     response = AI_logic.respond.respond_to_girl(name_age, messages)
-    send_message_endpoint(payload={'message': response})
+    send_messages_endpoint(payload={'message': response})
     return 200
 
 @app.get('/respond_all')
@@ -67,7 +67,7 @@ def get_unwritten_girl_bio():
     print("bio request arrived")
     name, bio = dating_connector.get_bio()
     message = AI_logic.opener.generate_opener(name, bio)
-    send_message_endpoint({'message': message})
+    send_messages_endpoint({'message': message})
     return 200
 
 
@@ -76,7 +76,7 @@ def get_unwritten_girl_bio(girl_nr: int = None):
     print("bio request arrived")
     name, bio = dating_connector.get_bio(girl_nr)
     message = AI_logic.opener.generate_opener(name, bio)
-    send_message_endpoint({'message': message})
+    send_messages_endpoint({'message': message})
     return 200
 
 
@@ -88,7 +88,7 @@ def rise_girls():
 
 
 @app.post("/send_message")
-def send_message_endpoint(payload: Dict[str, str]):
+def send_messages_endpoint(payload: Dict[str, str]):
     print("message request arrived")
     dating_connector.send_message(payload['message'])
     return 200

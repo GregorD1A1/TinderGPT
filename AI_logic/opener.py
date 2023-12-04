@@ -27,4 +27,4 @@ def log_retry(retry_state):
 
 @retry(stop=stop_after_attempt(3), wait=wait_fixed(90), before_sleep=log_retry)
 def generate_opener(name, description):
-    return chain.invoke({'name': name, 'description': description, 'language': language})
+    return [chain.invoke({'name': name, 'description': description, 'language': language})]

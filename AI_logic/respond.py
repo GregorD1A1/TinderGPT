@@ -91,13 +91,13 @@ def respond_to_girl(name_age, messages):
         'language': language,
     }, 'Writer')
 
-    message = writer_output['message']
+    messages = writer_output['message']
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
         analyzer2_output = invoke_chain(
-            analyser_chain, {'summary': summary, 'messages': f'Conversator: {message}'}, 'Analyzer2'
+            analyser_chain, {'summary': summary, 'messages': f'Conversator: {messages}'}, 'Analyzer2'
         )
         summary = analyzer2_output['summary']
 
     upsert_record(name_age, summary)
-    return message
+    return messages

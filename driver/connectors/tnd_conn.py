@@ -48,15 +48,16 @@ class TinderConnector():
         print('Closing Tinder')
         self.driver.get("about:blank")
 
-    def send_message(self, message, type_of_girl=None):
+    def send_message(self, messages):
         text_field = self.driver.find_element('xpath', self.text_area_xpath)
-        print('Thinking about what to write...')
-        time.sleep(random.uniform(1, 4))
-        text_field.send_keys(message)
-        print('Typing...')
-        time.sleep(random.uniform(4, 10))
-        text_field.send_keys(Keys.RETURN)
-        print('Message sent')
+        for message in messages:
+            print('Thinking about what to write...')
+            time.sleep(random.uniform(3, 6))
+            text_field.send_keys(message)
+            print('Typing...')
+            time.sleep(random.uniform(6, 11))
+            text_field.send_keys(Keys.RETURN)
+        print('Messages sent')
         time.sleep(random.uniform(1, 4))
         # return to main page
         self.driver.find_element('xpath', self.return_to_main_page_xpath).click()
@@ -66,8 +67,8 @@ class TinderConnector():
         self.enter_messages(girl_nr)
         messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')
-        # cut off last 4 messages
-        messages = messages[-4:]
+        # cut off last 5 messages
+        messages = messages[-5:]
 
         message_prompt = align_messages(messages)
 
