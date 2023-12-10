@@ -8,10 +8,12 @@ from AI_logic.airtable import get_record, upsert_record
 from dotenv import load_dotenv, find_dotenv
 from pushbullet import Pushbullet
 from tenacity import retry, stop_after_attempt, wait_fixed
+from langchain.pydantic_v1 import BaseModel, Field
 
 # api keys import
 load_dotenv(find_dotenv())
 language = os.environ['LANGUAGE']
+city = os.environ['CITY']
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 # import prompt files
@@ -34,6 +36,11 @@ writer_prompt = PromptTemplate.from_template(prompt_template)
 pushbullet_key = os.getenv('PUSHBULLET_API_KEY')
 if pushbullet_key:
     pushbullet = Pushbullet(pushbullet_key)
+
+
+class CommanderOutput(BaseModel):
+    reasoning: str = Field(..., description='short step-by-step reasoning about what abous should be next message and why')
+    tags: list = Field(..., description='choose tags among "Bond", "Attractive guy image", "Storytelling". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
 
 
 Analyzer = ChatOpenAI(model='gpt-4', temperature=0)
@@ -77,6 +84,7 @@ def respond_to_girl(name_age, messages):
     contact = analyzer_output['contact']
     if contact:
         pushbullet.push_note(f"I planned date with {name_age}", contact)
+        upsert_record(name_age, not_to_rise=True)
         return
 
     commander_output = invoke_chain(
@@ -89,6 +97,7 @@ def respond_to_girl(name_age, messages):
         'rules': rules,
         'messages': messages,
         'language': language,
+        'city': city,
     }, 'Writer')
 
     messages = writer_output['message']

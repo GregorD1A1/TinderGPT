@@ -2,7 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as ExpCon
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from AI_logic.airtable import girls_to_rise, upsert_record
 from AI_logic.misc import translate_rise_msg
 import time
@@ -31,6 +31,7 @@ class TinderConnector():
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
         self.name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
+        self.close_tnd_gold_enforser_xpath = "/html[1]/body[1]/div[2]/main[1]/div[1]/div[1]/div[3]/button[2]/span[1]"
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         self.project_dir = os.path.dirname(os.path.dirname(current_dir))
@@ -40,15 +41,22 @@ class TinderConnector():
     def load_main_page(self):
         self.driver.get("https://tinder.com")
         print('Waiting for the main page to load')
-        Wait(self.driver, 140).until(
-            ExpCon.presence_of_element_located((By.XPATH, self.main_page_element_for_wait)))
+        try:
+            Wait(self.driver, 140).until(
+                ExpCon.presence_of_element_located((By.XPATH, self.main_page_element_for_wait)))
+        except TimeoutException:
+            time.sleep(random.uniform(0, 10))
+            if self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath):
+                self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath).click()
+                print('Tinder gold enforcer closed')
+
         time.sleep(random.uniform(1, 3))
 
     def close_app(self):
         print('Closing Tinder')
         self.driver.get("about:blank")
 
-    def send_message(self, messages):
+    def send_messages(self, messages):
         text_field = self.driver.find_element('xpath', self.text_area_xpath)
         for message in messages:
             print('Thinking about what to write...')
@@ -67,8 +75,8 @@ class TinderConnector():
         self.enter_messages(girl_nr)
         messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')
-        # cut off last 5 messages
-        messages = messages[-5:]
+        # cut off last 6 messages
+        messages = messages[-6:]
 
         message_prompt = align_messages(messages)
 
@@ -133,28 +141,20 @@ class TinderConnector():
         self.driver.find_element('xpath', self.message_tab_xpath).click()
         time.sleep(random.uniform(1, 1.5))
 
-        # return if any unwritten girls exist
-        try:
-            self.driver.find_element(By.XPATH, self.new_msg_flag_xpath)
-            print('Can\'t rise, answer to all the girls first')
-            return
-        except NoSuchElementException:
-            pass
-
         self.translate_rise_msg_if_needed()
         with open(f'{self.project_dir}/AI_logic/cached_messages/rise_msg.txt', 'r', encoding='utf-8') as file:
             rise_msg = file.read()
             print(rise_msg)
 
         to_rise = girls_to_rise()
-        for girl_nr in range(5, 15):
+        for girl_nr in range(11, 20):
             print(girl_nr)
             self.enter_messages(girl_nr)
             name_age = self.get_name_age()
 
             if name_age in to_rise:
                 print(f'Rising {name_age}')
-                self.send_message(rise_msg)
+                self.send_messages([rise_msg])
                 upsert_record(name_age, not_to_rise=True)
                 time.sleep(random.uniform(1, 2))
 

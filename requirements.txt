@@ -10,3 +10,4 @@ pushbullet.py==0.12.0
 schedule==1.2.0
 tenacity==8.2.3
 SQLAlchemy==2.0.22
+airtable-python-wrapper==0.15.3

@@ -6,6 +6,7 @@ from driver.connectors.tnd_conn import TinderConnector
 from driver.driver import start_driver
 import AI_logic.respond
 import AI_logic.opener
+import AI_logic.airtable
 from dotenv import load_dotenv, find_dotenv
 from importlib import reload
 
@@ -87,10 +88,17 @@ def rise_girls():
     return 200
 
 
+@app.get('/clear_base')
+def remove_expired():
+    print("Clear base request arrived")
+    AI_logic.airtable.remove_expired_girls()
+    return 200
+
+
 @app.post("/send_message")
 def send_messages_endpoint(payload: Dict[str, str]):
     print("message request arrived")
-    dating_connector.send_message(payload['message'])
+    dating_connector.send_messages(payload['message'])
     return 200
 
 @app.get("/close")
@@ -104,6 +112,7 @@ def close_app():
 async def reload_modules():
     reload(AI_logic.respond)
     reload(AI_logic.opener)
+    reload(AI_logic.airtable)
 
     return {"message": "Modules reloaded"}
 
