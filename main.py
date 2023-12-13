@@ -64,17 +64,28 @@ def respond_to_all():
 
 
 @app.get('/opener')
-def get_unwritten_girl_bio():
-    print("bio request arrived")
+def write_opener():
+    print("opener request arrived")
     name, bio = dating_connector.get_bio()
     message = AI_logic.opener.generate_opener(name, bio)
     send_messages_endpoint({'message': message})
     return 200
 
 
+# function to send predefined nr of openers
+@app.get('/batch_openers/{nr_openers}')
+def write_openers(nr_openers: int = None):
+    print("batch of openers request arrived")
+    for i in range(nr_openers):
+        name, bio = dating_connector.get_bio()
+        message = AI_logic.opener.generate_opener(name, bio)
+        send_messages_endpoint({'message': message})
+    return 200
+
+
 @app.get('/opener/{girl_nr}')
-def get_unwritten_girl_bio(girl_nr: int = None):
-    print("bio request arrived")
+def write_opener(girl_nr: int = None):
+    print("opener request arrived")
     name, bio = dating_connector.get_bio(girl_nr)
     message = AI_logic.opener.generate_opener(name, bio)
     send_messages_endpoint({'message': message})

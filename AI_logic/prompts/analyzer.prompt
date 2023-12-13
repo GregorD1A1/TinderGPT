@@ -22,24 +22,6 @@ After step 1 is completed, conversation passes to step 2. Here Conversator propo
 
 ###
 
-Return the answer in a json format with "summary", "future_step", "contact" fields.
+Return the answer in a json format with "summary", "future_step", "contact" fields. 
 
-Depending on step in which we are, "summary" field should look like:
-
-"summary": "We are on step 1.
-Bond. Important information I know about her (x/3): some info, another info ... .
-Image of unavailable guy (x/1): tools used and context.
-Fun stries (x/1): what stories Conversator have told."
-
-or:
-
-"summary": "We are on step 2.
-Provide here informations about if non-obligatory meeting was proposed, if she was asked about number, if comfort was built etc. and some context around that informations."
-
-In "contact" field shold be provided type of contact and contact itself if it was provided by her in last messages. For example, "Phone 123456789", "Facebook Name Surname", "Instagram insta_nick". If no contact were provided, just leave that field blank.
-
-"future_step" field should be:
-"step1" if we are currently in step 1 and not all the conditions of that step are completed,
-"step2" if we are currently in step 1 and all the conditions are completed (at least 3 info known, 1 unavalability tool used, 1 fun story told),
-"step2" if we are currently in step 2.
 

@@ -3,6 +3,7 @@ import json
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import StrOutputParser
+from langchain.chains.openai_functions import create_structured_output_runnable
 from AI_logic.rule_base.rules_db_conn import query_rule
 from AI_logic.airtable import get_record, upsert_record
 from dotenv import load_dotenv, find_dotenv
@@ -43,12 +44,36 @@ class CommanderOutput(BaseModel):
     tags: list = Field(..., description='choose tags among "Bond", "Attractive guy image", "Storytelling". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
 
 
-Analyzer = ChatOpenAI(model='gpt-4', temperature=0)
+class AnalyzerOutput(BaseModel):
+    summary: str = Field(
+        ...,
+        description='If in step 1, it should look like: "We are on step 1.\n'
+                    'Bond. Important information I know about her (x/3): some info, another info ... .\n'
+                    'Image of unavailable guy (x/1): tools used and context.\n'
+                    'Fun stries (x/1): what stories Conversator have told.".'
+                    'If in step 2, it should look like: "We are on step 2.\n'
+                    'Provide here informations about if non-obligatory meeting was proposed, if she was asked '
+                    'about number, if comfort was built etc. and some context around that informations."'
+                         )
+    future_step: str = Field(
+        ...,
+        description='"step1" if we are currently in step 1 and not all the conditions of that step are completed, '
+                    '"step2" if we are currently in step 1 and all the conditions are completed (at least 3 info known,'
+                    '1 unavailability tool used, 1 fun story told), "step2" if we are currently in step 2.'
+    )
+    contact: str = Field(
+        ...,
+        description='type of contact and contact itself if it was provided by her in last messages. '
+                    'For example, "Phone 123456789", "Facebook Name Surname", "Instagram insta_nick". '
+                    'If no contact were provided, just leave that field blank.'
+    )
+
+
+Analyzer = ChatOpenAI(model='gpt-4-1106-preview', temperature=0)
 Commander = ChatOpenAI(model='gpt-4', temperature=0.4)
 Writer = ChatOpenAI(model='gpt-4', temperature=0.7)
-#print(Writer.model_name)
 
-analyser_chain = analyzer_prompt | Analyzer | StrOutputParser()
+analyser_chain = create_structured_output_runnable(AnalyzerOutput, Analyzer, analyzer_prompt)
 writer_chain = writer_prompt | Writer | StrOutputParser()
 
 
@@ -75,13 +100,12 @@ def invoke_chain(chain, args, module_name=None):
 
 def respond_to_girl(name_age, messages):
     previous_summary = get_record(name_age)
-    analyzer_output = invoke_chain(
-        analyser_chain, {'summary': previous_summary, 'messages': messages}, 'Analyzer'
-    )
+    analyzer_output = analyser_chain.invoke({'summary': previous_summary, 'messages': messages})
+    print(f'Analyzer says: {analyzer_output}')
 
-    future_step = analyzer_output['future_step']
-    summary = analyzer_output['summary']
-    contact = analyzer_output['contact']
+    future_step = analyzer_output.future_step
+    summary = analyzer_output.summary
+    contact = analyzer_output.contact
     if contact:
         pushbullet.push_note(f"I planned date with {name_age}", contact)
         upsert_record(name_age, not_to_rise=True)
@@ -103,10 +127,9 @@ def respond_to_girl(name_age, messages):
     messages = writer_output['message']
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
-        analyzer2_output = invoke_chain(
-            analyser_chain, {'summary': summary, 'messages': f'Conversator: {messages}'}, 'Analyzer2'
-        )
-        summary = analyzer2_output['summary']
+        analyzer2_output = analyser_chain.invoke({'summary': summary, 'messages': f'Conversator: {messages}'})
+        print(f'Analyzer says: {analyzer_output}')
+        summary = analyzer2_output.summary
 
     upsert_record(name_age, summary)
     return messages

@@ -42,15 +42,17 @@ class TinderConnector():
         self.driver.get("https://tinder.com")
         print('Waiting for the main page to load')
         try:
-            Wait(self.driver, 140).until(
+            Wait(self.driver, 120).until(
                 ExpCon.presence_of_element_located((By.XPATH, self.main_page_element_for_wait)))
         except TimeoutException:
             time.sleep(random.uniform(0, 10))
-            if self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath):
-                self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath).click()
-                print('Tinder gold enforcer closed')
 
-        time.sleep(random.uniform(1, 3))
+        # delay to let gold enforser to appear
+        time.sleep(random.uniform(2, 3))
+        if self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath):
+            self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath).click()
+            print('Tinder gold enforcer closed')
+
 
     def close_app(self):
         print('Closing Tinder')
@@ -69,6 +71,7 @@ class TinderConnector():
         time.sleep(random.uniform(1, 4))
         # return to main page
         self.driver.find_element('xpath', self.return_to_main_page_xpath).click()
+        time.sleep(random.uniform(1, 4))
 
     # girl_nr is number of girl from the top of the list of message history
     def get_msgs(self, girl_nr=None):
