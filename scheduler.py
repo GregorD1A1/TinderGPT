@@ -2,6 +2,7 @@ import schedule
 import time
 import random
 import requests
+import datetime
 
 BASE_URL = 'http://localhost:8080'
 # configure here your sessions
@@ -39,7 +40,9 @@ def schedule_randomly(session_name):
     time_range = SESSION_CONFIG[session_name]['time_range']
     for hour in range(time_range[0], time_range[1]):
         session_time = f"{hour}:{minute}"
-        print(f"{session_name} scheduled for {session_time}")
+        # for debugging only
+        tommorrows_date = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        print(f"{session_name} scheduled for {session_time}, on {tommorrows_date}")
         # Schedule the session for this random time
         job = schedule.every().day.at(session_time).do(run_session, session_name)
         # Store the job to scheduled_jobs dictionary
