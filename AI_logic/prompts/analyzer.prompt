@@ -24,4 +24,3 @@ After step 1 is completed, conversation passes to step 2. Here Conversator propo
 
 Return the answer in a json format with "summary", "future_step", "contact" fields. 
 
-

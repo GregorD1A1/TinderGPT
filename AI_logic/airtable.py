@@ -19,7 +19,15 @@ auth_header = {
   "Content-Type": "application/json"
 }
 
-airtable = Airtable(base_id, table_id, token)
+
+# create new base if no base saved in .env file
+def create_base_if_needed():
+    global base_id, table_id
+    if not base_id:
+        base_id, table_id = create_base()
+        with open(".env", "a") as env_file:
+            env_file.write(f"\nAIRTABLE_BASE_ID={base_id}\n")
+            env_file.write(f"AIRTABLE_TABLE_ID={table_id}\n")
 
 
 def create_base():
@@ -57,6 +65,7 @@ def create_base():
       "workspaceId": workspace_id,
     }
 
+    print("Creating base...")
     response = requests.post(url_bases, headers=auth_header, data=json.dumps(data))
     base_id = response.json()['id']
     table_id = response.json()['tables'][0]['id']
@@ -127,9 +136,5 @@ def remove_expired_girls():
     airtable.batch_delete(girls_to_remove)
 
 
-# create new base if no base saved in .env file
-if not base_id:
-    base_id, table_id = create_base()
-    with open(".env", "a") as env_file:
-        env_file.write(f"\nAIRTABLE_BASE_ID={base_id}\n")
-        env_file.write(f"AIRTABLE_TABLE_ID={table_id}\n")
+create_base_if_needed()
+airtable = Airtable(base_id, table_id, token)
