@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import StrOutputParser
@@ -15,6 +16,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 load_dotenv(find_dotenv())
 language = os.environ['LANGUAGE']
 city = os.environ['CITY']
+notifications_hook = os.getenv('NOTIFICATIONS_HOOK')
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 # import prompt files
@@ -37,11 +39,6 @@ writer_prompt = PromptTemplate.from_template(prompt_template)
 pushbullet_key = os.getenv('PUSHBULLET_API_KEY')
 if pushbullet_key:
     pushbullet = Pushbullet(pushbullet_key)
-
-
-class CommanderOutput(BaseModel):
-    reasoning: str = Field(..., description='short step-by-step reasoning about what abous should be next message and why')
-    tags: list = Field(..., description='choose tags among "Bond", "Attractive guy image", "Storytelling". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
 
 
 class AnalyzerOutput(BaseModel):
@@ -69,19 +66,34 @@ class AnalyzerOutput(BaseModel):
     )
 
 
+class CommanderStep1Output(BaseModel):
+    reasoning: str = Field(..., description='Step-by-step reasoning about what abous should be next message and why in 2 sentenses.')
+    tags: list = Field(..., description='Choose tags among "Bond", "Attractive guy image", "Storytelling". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
+
+
+class CommanderStep2Output(BaseModel):
+    reasoning: str = Field(..., description='Step-by-step reasoning about what abous should be next message and why in 2 sentenses.')
+    tags: list = Field(..., description='Choose tags among "Suggesting meeting", "Comfort", "Providing meeting details", "Ask for contact". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
+
+
+class WriterOutput(BaseModel):
+    reasoning: str = Field(..., description='Alright, deep breath. Time to systematically think through your text. Make reasoning about content of your future message.')
+    message: list = Field(..., description='["Here\'s your moment. Write the message to girl in {language}.", "Exact that way, your story as two-three separate messages, where next message is continuation of previous", "And hey, grammar nerds unite. Make sure every word is in the right place."]')
+
+
 Analyzer = ChatOpenAI(model='gpt-4-1106-preview', temperature=0)
-Commander = ChatOpenAI(model='gpt-4', temperature=0.4)
+Commander = ChatOpenAI(model='gpt-4-1106-preview', temperature=0.4)
 Writer = ChatOpenAI(model='gpt-4', temperature=0.7)
 
-analyser_chain = create_structured_output_runnable(AnalyzerOutput, Analyzer, analyzer_prompt)
+analyzer_chain = create_structured_output_runnable(AnalyzerOutput, Analyzer, analyzer_prompt)
 writer_chain = writer_prompt | Writer | StrOutputParser()
 
 
 def commander_chain(future_step):
     if future_step == 'step1':
-        return commander_step1_prompt | Commander | StrOutputParser()
+        return create_structured_output_runnable(CommanderStep1Output, Commander, commander_step1_prompt)
     else:
-        return commander_step2_prompt | Commander | StrOutputParser()
+        return create_structured_output_runnable(CommanderStep2Output, Commander, commander_step2_prompt)
 
 
 # retry decorator to retry if openai request didn't return
@@ -100,22 +112,22 @@ def invoke_chain(chain, args, module_name=None):
 
 def respond_to_girl(name_age, messages):
     previous_summary = get_record(name_age)
-    analyzer_output = analyser_chain.invoke({'summary': previous_summary, 'messages': messages})
+    analyzer_output = analyzer_chain.invoke({'summary': previous_summary, 'messages': messages})
     print(f'Analyzer says: {analyzer_output}')
 
     future_step = analyzer_output.future_step
     summary = analyzer_output.summary
     contact = analyzer_output.contact
     if contact:
+        if notifications_hook:
+            requests.get(notifications_hook, params={'name_age': name_age, 'contact': contact})
         pushbullet.push_note(f"I planned date with {name_age}", contact)
         upsert_record(name_age, not_to_rise=True)
         return
 
-    commander_output = invoke_chain(
-        commander_chain(future_step), {'summary': summary, 'messages': messages},'Commander'
-    )
+    commander_output = commander_chain(future_step).invoke({'summary': summary, 'messages': messages})
 
-    tags = commander_output['tags']
+    tags = commander_output.tags
     rules = "\n###\n- ".join([query_rule(tag) for tag in tags])
     writer_output = invoke_chain(writer_chain, {
         'rules': rules,
@@ -127,9 +139,10 @@ def respond_to_girl(name_age, messages):
     messages = writer_output['message']
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
-        analyzer2_output = analyser_chain.invoke({'summary': summary, 'messages': f'Conversator: {messages}'})
+        analyzer2_output = analyzer_chain.invoke({'summary': summary, 'messages': f'Conversator: {messages}'})
         print(f'Analyzer says: {analyzer_output}')
         summary = analyzer2_output.summary
 
     upsert_record(name_age, summary)
     return messages
+

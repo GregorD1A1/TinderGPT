@@ -18,6 +18,3 @@ You are helping your friend Conversator to arrange meeting with a girl from Tind
 ###
 
 Return an answer in a json format with "reasoning" and "tags" fields.
-
-"reasoning" - Deep breath. Make step-by-step reasoning what about should be next message and why.
-"tags" - choose tags among "Suggesting meeting", "Comfort", "Providing meeting details", "Ask for contact". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.

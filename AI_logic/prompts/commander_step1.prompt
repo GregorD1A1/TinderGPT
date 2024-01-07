@@ -22,6 +22,3 @@ Keep the conversation flowing naturally. For example, if she's just asked a ques
 ###
 
 Return an answer in a json format with "reasoning" and "tags" fields.
-
-"reasoning" - step-by-step reasoning about what abous should be next message and why in 2 sentenses.
-"tags" - choose tags among "Bond", "Attractive guy image", "Storytelling". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.

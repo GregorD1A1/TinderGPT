@@ -23,5 +23,5 @@ As a Conversator, you've got to shape up a message given the base and chat histo
 Alright, time to send in the goods. Whip up a json with the stuff "reasoning", "message":
 {{
 "reasoning": "Alright, deep breath. Time to systematically think through your text. Make reasoning about content of your future message.",
-"message": ["Here's your moment. Write the message to girl in Polish.", "Exact that way, your story as two-three separate messages, where next message is continuation of previous", "And hey, grammar nerds unite. Make sure every word is in the right place."]
+"message": ["Here's your moment. Write the message to girl in {language}.", "Exact that way, your story as two-three separate messages, where next message is continuation of previous", "And hey, grammar nerds unite. Make sure every word is in the right place."]
 }}
