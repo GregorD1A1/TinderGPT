@@ -1,0 +1,17 @@
+[Unit]
+Description=TinderGPT Service
+After=network.target
+
+[Service]
+Environment="PATH=/home/gregor/TinderGPT/env"
+ExecStart=/usr/bin/python3 /home/gregor/TinderGPT/main.py
+Restart=always
+User=gregor
+Group=gregor
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=TinderGPT
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

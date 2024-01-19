@@ -78,7 +78,7 @@ class CommanderStep2Output(BaseModel):
 
 class WriterOutput(BaseModel):
     reasoning: str = Field(..., description='Alright, deep breath. Time to systematically think through your text. Make reasoning about content of your future message.')
-    message: list = Field(..., description='["Here\'s your moment. Write the message to girl in {language}.", "Exact that way, your story as two-three separate messages, where next message is continuation of previous", "And hey, grammar nerds unite. Make sure every word is in the right place."]')
+    messages: list = Field(..., description=f'List of the messages to girt in {language}, should be logical continuation of previous conversation.')
 
 
 Analyzer = ChatOpenAI(model='gpt-4-1106-preview', temperature=0)
@@ -110,14 +110,30 @@ def invoke_chain(chain, args, module_name=None):
         raise e
 
 
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(90))
+def invoke_stuctured_runnable(chain, args, module_name=None):
+    try:
+        output = chain.invoke(args)
+        print(f'\n{module_name} says:')
+        print(output)
+        return output
+    except Exception as e:
+        print(f"Error encountered: \n{str(e)}]n{str(e.args)}\nRetrying...")
+        raise e
+
+
 def respond_to_girl(name_age, messages):
     previous_summary = get_record(name_age)
-    analyzer_output = analyzer_chain.invoke({'summary': previous_summary, 'messages': messages})
-    print(f'Analyzer says: {analyzer_output}')
+    analyzer_output = invoke_stuctured_runnable(
+        analyzer_chain,
+        {'summary': previous_summary, 'messages': messages},
+        'Analyzer'
+    )
 
     future_step = analyzer_output.future_step
     summary = analyzer_output.summary
     contact = analyzer_output.contact
+
     if contact:
         if notifications_hook:
             requests.get(notifications_hook, params={'name_age': name_age, 'contact': contact})
@@ -125,10 +141,14 @@ def respond_to_girl(name_age, messages):
         upsert_record(name_age, not_to_rise=True)
         return
 
-    commander_output = commander_chain(future_step).invoke({'summary': summary, 'messages': messages})
-
+    commander_output = invoke_stuctured_runnable(
+        commander_chain(future_step),
+        {'summary': summary, 'messages': messages},
+        'Commander'
+    )
     tags = commander_output.tags
     rules = "\n###\n- ".join([query_rule(tag) for tag in tags])
+
     writer_output = invoke_chain(writer_chain, {
         'rules': rules,
         'messages': messages,
@@ -136,13 +156,15 @@ def respond_to_girl(name_age, messages):
         'city': city,
     }, 'Writer')
 
-    messages = writer_output['message']
+    messages_to_send = writer_output["messages"]
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
-        analyzer2_output = analyzer_chain.invoke({'summary': summary, 'messages': f'Conversator: {messages}'})
-        print(f'Analyzer says: {analyzer_output}')
+        analyzer2_output = invoke_stuctured_runnable(
+            analyzer_chain,
+            {'summary': summary, 'messages': f'Conversator: {messages_to_send}'}, 'Analyzer'
+        )
         summary = analyzer2_output.summary
 
     upsert_record(name_age, summary)
-    return messages
+    return messages_to_send
 

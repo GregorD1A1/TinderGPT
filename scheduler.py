@@ -13,7 +13,7 @@ SESSION_CONFIG = {
     },
     'session2': {
         'time_range': (20, 21),
-        'endpoints': ['/start_tnd', '/respond_all', '/rise', '/close'],
+        'endpoints': ['/start_tnd', '/respond_all', '/rise', '/clear_base', '/close'],
     },
 }
 
