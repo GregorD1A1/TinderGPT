@@ -18,7 +18,7 @@ parser.add_argument('-he', '--head', action='store_true',
                     help='selenium in head (non-headless) option')
 args = parser.parse_args()
 
-#starting
+
 @app.get('/')
 def check_driver_state():
     response = "Driver up and running" if dating_connector.driver else "Driver not running"
