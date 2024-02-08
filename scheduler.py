@@ -8,10 +8,14 @@ BASE_URL = 'http://localhost:8080'
 # configure here your sessions
 SESSION_CONFIG = {
     'session1': {
+        'time_range': (17, 18),
+        'endpoints': ['/start_tnd', '/respond_all', '/close'],
+    },
+    'session2': {
         'time_range': (18, 19),
         'endpoints': ['/start_tnd', '/respond_all', '/opener', '/opener', '/opener', '/close'],
     },
-    'session2': {
+    'session3': {
         'time_range': (20, 21),
         'endpoints': ['/start_tnd', '/respond_all', '/rise', '/clear_base', '/close'],
     },
