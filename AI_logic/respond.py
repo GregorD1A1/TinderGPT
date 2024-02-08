@@ -16,6 +16,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 load_dotenv(find_dotenv())
 language = os.environ['LANGUAGE']
 city = os.environ['CITY']
+personality = os.getenv('PERSONALITY')
 notifications_hook = os.getenv('NOTIFICATIONS_HOOK')
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -74,11 +75,6 @@ class CommanderStep1Output(BaseModel):
 class CommanderStep2Output(BaseModel):
     reasoning: str = Field(..., description='Step-by-step reasoning about what abous should be next message and why in 2 sentenses.')
     tags: list = Field(..., description='Choose tags among "Suggesting meeting", "Comfort", "Providing meeting details", "Ask for contact". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
-
-
-class WriterOutput(BaseModel):
-    reasoning: str = Field(..., description='Alright, deep breath. Time to systematically think through your text. Make reasoning about content of your future message.')
-    messages: list = Field(..., description=f'List of the messages to girt in {language}, should be logical continuation of previous conversation.')
 
 
 Analyzer = ChatOpenAI(model='gpt-4-1106-preview', temperature=0)
@@ -154,6 +150,7 @@ def respond_to_girl(name_age, messages):
         'messages': messages,
         'language': language,
         'city': city,
+        'personality': personality,
     }, 'Writer')
 
     messages_to_send = writer_output["messages"]
