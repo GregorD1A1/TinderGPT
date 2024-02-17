@@ -112,10 +112,12 @@ def send_messages_endpoint(payload: Dict[str, str]):
     dating_connector.send_messages(payload['message'])
     return 200
 
+
 @app.get("/close")
 def close_app():
     dating_connector.close_app()
     return 200
+
 
 # use that endpoint to reload AI modules after providing changes on propmts or AI modules code
 # without restarting whole application
