@@ -32,6 +32,7 @@ class TinderConnector():
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
         self.name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
         self.close_tnd_gold_enforser_xpath = "/html[1]/body[1]/div[2]/main[1]/div[1]/div[1]/div[3]/button[2]/span[1]"
+        self.not_opened_girls_css_selector = 'ul > li.P\(8px\)'
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         self.project_dir = os.path.dirname(os.path.dirname(current_dir))
@@ -49,7 +50,7 @@ class TinderConnector():
 
         # delay to let gold enforser to appear
         time.sleep(random.uniform(2, 3))
-        if self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath):
+        if self.driver.find_elements('xpath', self.close_tnd_gold_enforser_xpath):
             self.driver.find_element('xpath', self.close_tnd_gold_enforser_xpath).click()
             print('Tinder gold enforcer closed')
 
@@ -108,6 +109,15 @@ class TinderConnector():
         time.sleep(random.uniform(1, 2))
 
         return len(self.driver.find_elements('xpath', self.new_msg_flag_xpath))
+
+    def count_not_opened_girls(self):
+        self.driver.find_element('xpath', self.match_tab_xpath).click()
+        time.sleep(random.uniform(2, 4))
+
+        number_of_girls = self.driver.find_elements(By.CSS_SELECTOR, self.not_opened_girls_css_selector)
+        number_of_girls = len(number_of_girls) - 2
+
+        return number_of_girls
 
     # gets name_age from opened written girl
     def get_name_age(self):

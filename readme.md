@@ -54,6 +54,6 @@ Paste provided id after "AIRTABLE_WORKSPACE_ID=" on `.env` file.
 
 
 ## Contribution
-While application is already working, there still a lot of things to improve. I'm appreciate if you want to contribute to project. 
+While application is already working, there still a lot of things to improve. I'm appreciate if you want to contribute to the project. 
 
-While improving prompts, pick-up rules knowledge file or scripts in AI_logic folder, use `localhost:8080/reload` to reload changes fast without restarting whole the application (which is time-consuming).
+While improving prompts, pick-up rules knowledge base or scripts in AI_logic folder, use `localhost:8080/reload` to reload changes immidiatelly without restarting whole the application (which is time-consuming).
