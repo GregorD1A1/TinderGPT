@@ -53,6 +53,10 @@ Paste provided id after "AIRTABLE_WORKSPACE_ID=" on `.env` file.
 3. Now your fully automatic process of writing to girls is set up!
 
 
+## AI dating good practices
+When going to date organized by TinderGPT, I recommend you to tell your match, that it was picked up by artificial intellegence. Beyond the fun value of the situation, it's a good practice to inform users that they are speaking with a bot.
+
+
 ## Contribution
 While application is already working, there still a lot of things to improve. I'm appreciate if you want to contribute to the project. 
 
