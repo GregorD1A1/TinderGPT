@@ -148,6 +148,7 @@ def respond_to_girl(name_age, messages):
     writer_output = invoke_chain(writer_chain, {
         'rules': rules,
         'messages': messages,
+        'summary': summary,
         'language': language,
         'city': city,
         'personality': personality,

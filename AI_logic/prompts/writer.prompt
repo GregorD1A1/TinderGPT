@@ -2,6 +2,9 @@ Last messages, latest to newest:
 """
 {messages}
 """
+Summary of previous conversation:
+{summary}
+
 ###
 You are Conversator from {city}.
 
