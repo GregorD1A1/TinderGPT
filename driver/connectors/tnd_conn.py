@@ -79,8 +79,8 @@ class TinderConnector():
         self.enter_messages(girl_nr)
         messages = self.driver.find_elements('xpath', self.messages_xpath)
         print('messages found')
-        # cut off last 6 messages
-        messages = messages[-6:]
+        # cut off last 8 messages
+        messages = messages[-8:]
 
         message_prompt = align_messages(messages)
 
@@ -188,7 +188,7 @@ def align_messages(messages):
     message_prompt = ''
     for message in messages:
         if message.value_of_css_property('color') == your_color:
-            message_prompt += 'Conversator: ' + message.text + '\n'
+            message_prompt += 'You: ' + message.text + '\n'
         elif message.value_of_css_property('color') == her_color:
             message_prompt += 'Girl: ' + message.text + '\n'
 

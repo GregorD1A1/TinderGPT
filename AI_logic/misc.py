@@ -3,6 +3,7 @@ import os
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import StrOutputParser
+from transformers import AutoModel
 
 
 load_dotenv(find_dotenv())
@@ -16,3 +17,8 @@ def translate_rise_msg(message):
     llm = ChatOpenAI(model='gpt-4-1106-preview', temperature=0.5)
     chain = prompt | llm | StrOutputParser()
     return chain.invoke({'message': message, 'language': language})
+
+
+def run_tindebielik():
+    model = AutoModel.from_pretrained("Grigorij/TindeBielik")
+    model

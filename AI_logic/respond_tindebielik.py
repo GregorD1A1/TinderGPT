@@ -5,7 +5,7 @@ from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import StrOutputParser
 from langchain.chains.openai_functions import create_structured_output_runnable
-from AI_logic.rule_base.rules_db_conn import query_rule
+from AI_logic.rule_base.rules_db_conn import query_rule, query_tindebielik_finetune_rule
 from AI_logic.airtable import get_record, upsert_record
 from dotenv import load_dotenv, find_dotenv
 from pushbullet import Pushbullet
@@ -14,9 +14,6 @@ from langchain.pydantic_v1 import BaseModel, Field
 
 # api keys import
 load_dotenv(find_dotenv())
-language = os.environ['LANGUAGE']
-city = os.environ['CITY']
-personality = os.getenv('PERSONALITY')
 notifications_hook = os.getenv('NOTIFICATIONS_HOOK')
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -33,7 +30,7 @@ with open(f'{current_dir}/prompts/commander_step2.prompt', 'r') as file:
     prompt_template = file.read()
 commander_step2_prompt = PromptTemplate.from_template(prompt_template)
 
-with open(f'{current_dir}/prompts/writer.prompt', 'r') as file:
+with open(f'{current_dir}/prompts/writer_tindebielik.prompt', 'r') as file:
     prompt_template = file.read()
 writer_prompt = PromptTemplate.from_template(prompt_template)
 
@@ -84,7 +81,6 @@ Writer = ChatOpenAI(model='gpt-4', temperature=0.7)
 analyzer_chain = create_structured_output_runnable(AnalyzerOutput, Analyzer, analyzer_prompt)
 writer_chain = writer_prompt | Writer | StrOutputParser()
 
-
 def commander_chain(future_step):
     if future_step == 'step1':
         return create_structured_output_runnable(CommanderStep1Output, Commander, commander_step1_prompt)
@@ -118,7 +114,7 @@ def invoke_stuctured_runnable(chain, args, module_name=None):
         raise e
 
 
-def respond_to_girl(name_age, messages):
+def respond_to_girl_tindebielik(name_age, messages):
     previous_summary = get_record(name_age)
     analyzer_output = invoke_stuctured_runnable(
         analyzer_chain,
@@ -143,18 +139,14 @@ def respond_to_girl(name_age, messages):
         'Commander'
     )
     tags = commander_output.tags
-    rules = "\n###\n- ".join([query_rule(tag) for tag in tags])
 
-    writer_output = invoke_chain(writer_chain, {
-        'rules': rules,
-        'messages': messages,
-        'summary': summary,
-        'language': language,
-        'city': city,
-        'personality': personality,
-    }, 'Writer')
+    rule = query_tindebielik_finetune_rule(tags[0])
+    messages_to_send = invoke_chain(writer_chain, {
+        'tindebielik_rule': rule,
+        'messages': messages
+    }, 'TindeBielik Writer')
 
-    messages_to_send = writer_output["messages"]
+
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
         analyzer2_output = invoke_stuctured_runnable(

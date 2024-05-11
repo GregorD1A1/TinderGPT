@@ -5,13 +5,17 @@ from typing import Dict
 from driver.connectors.tnd_conn import TinderConnector
 from driver.driver import start_driver
 import AI_logic.respond
+import AI_logic.respond_tindebielik
 import AI_logic.opener
 import AI_logic.airtable
 from dotenv import load_dotenv, find_dotenv
 from importlib import reload
+import os
 
 
 load_dotenv(find_dotenv())
+use_tindebielik = os.getenv('USE_TINDEBIELIK')
+
 app = FastAPI()
 parser = argparse.ArgumentParser()
 parser.add_argument('-he', '--head', action='store_true',
@@ -34,24 +38,23 @@ def load_main_page_tnd():
     return 200
 
 
-@app.get('/respond')
-def respond():
-    print("msgs request arrived")
-    messages = dating_connector.get_msgs()
-    name_age = dating_connector.get_name_age()
-    response = AI_logic.respond.respond_to_girl(name_age, messages)
-    send_messages_endpoint({'message': response})
-    return 200
-
 
 @app.get('/respond/{girl_nr}')
 def respond_nr(girl_nr: int = None):
     print("msgs request arrived")
     messages = dating_connector.get_msgs(girl_nr)
     name_age = dating_connector.get_name_age()
-    response = AI_logic.respond.respond_to_girl(name_age, messages)
+    if not use_tindebielik:
+        response = AI_logic.respond.respond_to_girl(name_age, messages)
+    else:
+        response = AI_logic.respond_tindebielik.respond_to_girl_tindebielik(name_age, messages)
     send_messages_endpoint(payload={'message': response})
     return 200
+
+
+@app.get('/respond')
+def respond():
+    return respond_nr()
 
 @app.get('/respond_all')
 def respond_to_all():

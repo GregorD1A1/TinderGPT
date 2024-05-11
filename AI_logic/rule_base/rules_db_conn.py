@@ -23,5 +23,8 @@ def query_rule(tag_name):
 
         return rule
 
-if __name__ == '__main__':
-    print(query_rule('Suggesting meeting'))
+def query_tindebielik_finetune_rule(tag_name):
+    with Session() as session:
+        rule = session.query(pickup_rules).filter_by(tag=tag_name).first().TindeBielik_rules
+
+        return rule

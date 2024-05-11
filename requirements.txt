@@ -11,3 +11,4 @@ schedule==1.2.0
 tenacity==8.2.3
 SQLAlchemy==2.0.22
 airtable-python-wrapper==0.15.3
+transformers==4.40.2
