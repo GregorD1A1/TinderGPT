@@ -7,6 +7,7 @@ from langchain.schema import StrOutputParser
 from langchain.chains.openai_functions import create_structured_output_runnable
 from AI_logic.rule_base.rules_db_conn import query_rule, query_tindebielik_finetune_rule
 from AI_logic.airtable import get_record, upsert_record
+from AI_logic.inference_tindebielik import inference_tindebielik
 from dotenv import load_dotenv, find_dotenv
 from pushbullet import Pushbullet
 from tenacity import retry, stop_after_attempt, wait_fixed
@@ -141,10 +142,12 @@ def respond_to_girl_tindebielik(name_age, messages):
     tags = commander_output.tags
 
     rule = query_tindebielik_finetune_rule(tags[0])
-    messages_to_send = invoke_chain(writer_chain, {
-        'tindebielik_rule': rule,
-        'messages': messages
-    }, 'TindeBielik Writer')
+    #messages_to_send = invoke_chain(writer_chain, {
+    #    'tindebielik_rule': rule,
+    #    'messages': messages
+    #}, 'TindeBielik Writer')
+    messages_to_send = inference_tindebielik(messages, rule)
+    print(messages_to_send)
 
 
     # update summary in case of attractive guy image or storytelling
