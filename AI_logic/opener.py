@@ -9,7 +9,7 @@ from dotenv import load_dotenv, find_dotenv
 
 # API keys import
 load_dotenv(find_dotenv())
-language = os.environ['LANGUAGE']
+language = os.environ['USE_LANGUAGE']
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
 with open(f'{current_dir}/prompts/opener.prompt', 'r') as file:

@@ -14,7 +14,7 @@ from langchain.pydantic_v1 import BaseModel, Field
 
 # api keys import
 load_dotenv(find_dotenv())
-language = os.environ['LANGUAGE']
+language = os.environ['USE_LANGUAGE']
 city = os.environ['CITY']
 personality = os.getenv('PERSONALITY')
 notifications_hook = os.getenv('NOTIFICATIONS_HOOK')
