@@ -144,7 +144,7 @@ class TinderConnector():
         except NoSuchElementException:
             bio = self.driver.find_element('xpath', self.unwritten_girl_full_bio_xpath).text
         else:
-            if len(bio) < 50 or bio.startswith('Looking for'):
+            if len(bio) < 50:
                 bio = self.driver.find_element('xpath', self.unwritten_girl_full_bio_xpath).text
 
         return name, bio
