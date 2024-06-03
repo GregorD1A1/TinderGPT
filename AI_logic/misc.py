@@ -6,7 +6,7 @@ from langchain.schema import StrOutputParser
 
 
 load_dotenv(find_dotenv())
-language = os.environ['LANGUAGE']
+language = os.environ['USE_LANGUAGE']
 
 
 def translate_rise_msg(message):

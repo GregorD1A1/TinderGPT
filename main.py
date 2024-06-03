@@ -5,7 +5,6 @@ from typing import Dict
 from driver.connectors.tnd_conn import TinderConnector
 from driver.driver import start_driver
 import AI_logic.respond
-import AI_logic.respond_tindebielik
 import AI_logic.opener
 import AI_logic.airtable
 from dotenv import load_dotenv, find_dotenv
@@ -15,6 +14,9 @@ import os
 
 load_dotenv(find_dotenv())
 use_tindebielik = os.getenv('USE_TINDEBIELIK')
+
+if use_tindebielik:
+    import AI_logic.respond_tindebielik
 
 app = FastAPI()
 parser = argparse.ArgumentParser()
