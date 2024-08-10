@@ -15,22 +15,21 @@ class TinderConnector():
     def __init__(self, driver):
         self.driver = driver
         # xpathes
-        self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/button[1]"
-        self.match_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/button[1]"
+        self.message_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/button[1]"
+        self.match_tab_xpath = "//aside[1]/nav[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/button[1]"
         self.new_msg_flag_xpath = "//a[1]/div[1]/div[1]/div[2]"
         "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[1]/a[1]/div[1]/div[1]/div[2]"
         "/html[1]/body[1]/div[1]/div[1]/div[1]/div[1]/aside[1]/nav[2]/div[1]/div[1]/div[1]/div[3]/div[2]/div[3]/ul[1]/li[2]/a[1]/div[1]/div[1]/div[2]"
         self.icons_xpath = "//div[1]/div[1]/div[3]/div[1]/ul[1]/li['.']/a[1]/div[1]/div[1]"
-        self.messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
-        self.written_girl_bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
+        self.messages_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div['.']/div[1]/div[2]"
+        self.written_girl_bio_xpath = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
         self.unwritten_girl_full_bio_xpath = "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]"
-        self.unwritten_girl_short_bio_xpath = \
-            "//div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]"
+        self.unwritten_girl_short_bio_xpath = "//div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/section[1]/div[1]"
         self.written_girl_name_age_xpath = "//div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]"
         self.main_page_element_for_wait = "//main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]"
         self.text_area_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[3]/form[1]/textarea[1]"
         self.return_to_main_page_xpath = "//div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]/button[1]/*"
-        self.name_xpath = "//h1[@class='Typs(display-1-strong) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)']"
+        self.name_xpath = "//div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/h1[1]/span[1]"
         self.close_tnd_gold_enforser_xpath = "/html[1]/body[1]/div[2]/main[1]/div[1]/div[1]/div[3]/button[2]/span[1]"
         self.not_opened_girls_css_selector = 'ul > li.P\(8px\)'
 
