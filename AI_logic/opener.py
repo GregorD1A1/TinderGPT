@@ -17,7 +17,7 @@ with open(f'{current_dir}/prompts/opener.prompt', 'r') as file:
 
 prompt = PromptTemplate.from_template(prompt_template)
 
-llm = ChatOpenAI(model='gpt-4', temperature=0.8)
+llm = ChatOpenAI(model='gpt-4o', temperature=0.8)
 
 chain = prompt | llm | StrOutputParser()
 

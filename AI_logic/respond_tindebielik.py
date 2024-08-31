@@ -146,8 +146,9 @@ def respond_to_girl_tindebielik(name_age, messages):
     #    'tindebielik_rule': rule,
     #    'messages': messages
     #}, 'TindeBielik Writer')
+    print(f"Input messages: {messages}")
     messages_to_send = inference_tindebielik(messages, rule)
-    print(messages_to_send)
+    print(f"Output messages: {messages_to_send}")
 
 
     # update summary in case of attractive guy image or storytelling

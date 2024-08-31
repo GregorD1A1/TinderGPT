@@ -77,9 +77,9 @@ class CommanderStep2Output(BaseModel):
     tags: list = Field(..., description='Choose tags among "Suggesting meeting", "Comfort", "Providing meeting details", "Ask for contact". Make sure you are writing only the tags directly related to your suggestion. Write tags in the array like ["tag1", "tag2"], even if you proposing single tag.')
 
 
-Analyzer = ChatOpenAI(model='gpt-4-1106-preview', temperature=0)
-Commander = ChatOpenAI(model='gpt-4-1106-preview', temperature=0.4)
-Writer = ChatOpenAI(model='gpt-4', temperature=0.7)
+Analyzer = ChatOpenAI(model='gpt-4o', temperature=0)
+Commander = ChatOpenAI(model='gpt-4o', temperature=0.4)
+Writer = ChatOpenAI(model='gpt-4o', temperature=0.7)
 
 analyzer_chain = create_structured_output_runnable(AnalyzerOutput, Analyzer, analyzer_prompt)
 writer_chain = writer_prompt | Writer | StrOutputParser()
@@ -154,6 +154,8 @@ def respond_to_girl(name_age, messages):
         'personality': personality,
     }, 'Writer')
 
+    print("writer_output: ")
+    print(writer_output)
     messages_to_send = writer_output["messages"]
     # update summary in case of attractive guy image or storytelling
     if 'Attractive guy image' in tags or 'Storytelling' in tags:
